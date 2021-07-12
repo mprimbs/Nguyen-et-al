@@ -97,7 +97,7 @@ summary(df_analysis18$HighArousalPositiveAffectMean)
 
 `StructureForSolitudeIndividual`: Summaryscore of 5-item questionnaire about structure for solitude. One measurement per individual. `StructureForSolitudeIndividualScaled` is the scaled version of this variable.
 
-```{r PersonStructureDesc, echo = FALSE}
+```{r PersonStructureDesc}
 summary(df_analysis18$StructureForSolitudeIndividual)
 
 ```
@@ -107,7 +107,7 @@ summary(df_analysis18$StructureForSolitudeIndividual)
 
 First, we begin to look at the data by looking at the densityplots for each dependent variable by level of ` Alone`.
 
-```{r Qplots, echo = TRUE}
+```{r Qplots}
 qplot (LowArousalNegativeAffectMean, data = df_analysis18, geom = "density", color = Alone, na.rm = TRUE)
 qplot (LowArousalPositiveAffectMean, data = df_analysis18, geom = "density", color = Alone, na.rm = TRUE)
 qplot (HighArousalNegativeAffectMean, data = df_analysis18, geom = "density", color = Alone, na.rm = TRUE)
@@ -116,7 +116,7 @@ qplot (HighArousalPositiveAffectMean, data = df_analysis18, geom = "density", co
 
 Next, we visualise some individual differences among our participants using xyplots.
 
-```{r XYplots, echo = TRUE}
+```{r XYplots}
 #visualise individual differences among participants
 lattice::xyplot(LowArousalNegativeAffectMean ~ Alone | Participant.ID, strip = FALSE, data = df_analysis18, na.rm = TRUE)
 lattice::xyplot(LowArousalPositiveAffectMean ~ Alone | Participant.ID, strip = FALSE, data = df_analysis18, na.rm = TRUE)
@@ -127,7 +127,7 @@ lattice::xyplot(HighArousalPositiveAffectMean ~ Alone | Participant.ID, strip = 
 
 Afterwards, we check the correlations of each dependent variable with the moderator day-level exposure to nature.
 
-```{r NaturePlots, echo = TRUE}
+```{r NaturePlots}
 #Correlation of Nature with Each Outcome Variable for each level of alone
 ggplot(data = df_analysis18, aes(LowArousalNegativeAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point() + geom_smooth(method = "lm")
 ggplot(data = df_analysis18, aes(LowArousalPositiveAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point() + geom_smooth(method = "lm")
@@ -137,7 +137,7 @@ ggplot(data = df_analysis18, aes(HighArousalPositiveAffectMean, DayLevelNatureSc
 
 And now for day-level intentionality.
 
-```{r Intentionalityplots, echo = TRUE}
+```{r Intentionalityplots}
 #Correlation of DayLevelIntentionality with Outcome (we only calculate these for alone anyway, so the above graphs would not make sense)
 ggscatter(df_analysis18, x = "LowArousalNegativeAffectMean", y = "DayLevelIntentionalitySolitudeScaled", 
           add = "reg.line", conf.int = TRUE, 
@@ -162,7 +162,7 @@ ggscatter(df_analysis18, x = "HighArousalPositiveAffectMean", y = "DayLevelInten
 
 And for day-level structure.
 
-```{r DayStructurePlots, echo = TRUE}
+```{r DayStructurePlots}
 #Correlation of DayLevelStructureSolitude with Outcome
 ggscatter(df_analysis18, x = "LowArousalNegativeAffectMean", y = "DayLevelStructureSolitudeScaled", 
           add = "reg.line", conf.int = TRUE, 
@@ -188,7 +188,7 @@ ggscatter(df_analysis18, x = "HighArousalPositiveAffectMean", y = "DayLevelStruc
 
 And for individual-level structure.
 
-```{r IndividualStructurePlots, echo = TRUE}
+```{r IndividualStructurePlots}
 #Correlation of IndividualLevelStructure
 #Note: This has much more data than the two above, because there are not many alone periods.
 ggscatter(df_analysis18, x = "LowArousalNegativeAffectMean", y = "StructureForSolitudeIndividualScaled", 
