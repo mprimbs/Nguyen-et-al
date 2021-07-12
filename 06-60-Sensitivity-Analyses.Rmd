@@ -1,0 +1,935 @@
+# Sensitivity Analyses: 60%
+
+In the next section we report the sensitivity analyses based on all participants with at least 60% correct responses.
+
+```{r 60%prep, echo = TRUE}
+df_analysis21 <- subset(df, df$Surveys.completed >= 21)
+
+#scale independent continuous variables
+df_analysis21$StructureForSolitudeIndividualScaled <- scale(df_analysis21$StructureForSolitudeIndividual)
+df_analysis21$DayLevelIntentionalitySolitudeScaled <- scale(df_analysis21$DayLevelIntentionalitySolitude)
+df_analysis21$DayLevelNatureScaled <- scale(df_analysis21$DayLevelNature)
+df_analysis21$DayLevelStructureSolitudeScaled <- scale(df_analysis21$DayLevelStructureSolitude)
+
+df_analysis21$Alone <- as.factor(as.character(df_analysis21$Alone))
+
+
+df_analysis21_2 <- df_analysis21 %>% select(LowArousalNegativeAffectMean, LowArousalPositiveAffectMean, HighArousalNegativeAffectMean, HighArousalPositiveAffectMean, Alone)
+```
+
+
+## Research Question 1
+
+### Hypothesis 1a
+```{r 601a, echo = TRUE}
+lme21RQ1d <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> converges
+
+#get first summary
+summary(lme21RQ1d)
+
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ1d , scaled = TRUE)) > 2) / length(resid(lme21RQ1d ))
+sum(abs(resid(lme21RQ1d , scaled = TRUE)) > 2.5) / length(resid(lme21RQ1d )) 
+sum(abs(resid(lme21RQ1d , scaled = TRUE)) > 3) / length(resid(lme21RQ1d )) 
+
+#2) Homoscedasticity
+plot(lme21RQ1d, type = c('p', 'smooth'))
+#Looks fine
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ1d, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ1d, scaled = TRUE))
+
+#Normal enough, but the qqplot some outliers in the tails, small problem
+
+RQ1d_p <- afex::mixed (HighArousalPositiveAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis21, type = 3, method = "KR", test_intercept = TRUE, cl = MyCluster)
+RQ1d_p
+#effect of alone significant
+#positive estimate
+
+
+by(df_analysis21_2,df_analysis21_2$Alone, summary)
+#check contrasts to verify results
+contrasts(df_analysis21$Alone) 
+
+#Hypothesis 1A confirmed
+
+
+
+```
+
+Hypothesis 1a is also confirmed for the 60% sensitivity analyses.
+
+### Hypothesis 1b
+
+```{r 601b, echo = TRUE}
+lme21RQ1c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis21) # -> Singular Fit
+#1) change to bobyqa
+lme21RQ1c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) # -> Singular Fit
+#2) Turn of gradient and hessian
+lme21RQ1c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) # -> convergences
+
+
+#get first summary
+summary(lme21RQ1c)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ1c , scaled = TRUE)) > 2) / length(resid(lme21RQ1c )) 
+sum(abs(resid(lme21RQ1c , scaled = TRUE)) > 2.5) / length(resid(lme21RQ1c )) 
+sum(abs(resid(lme21RQ1c , scaled = TRUE)) > 3) / length(resid(lme21RQ1c )) 
+
+#2) Homoscedasticity
+plot(lme21RQ1c, type = c('p', 'smooth'))
+#Looks mostly fine, but strays quite far at the end
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ1c, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ1c, scaled = TRUE))
+
+#Normal enough, but the qqplot shows a lot of outliers in the tails, which is quite problematic
+#Calculate p-values
+RQ1c_p <- afex::mixed (HighArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), data = df_analysis21, type = 3, method = "KR", test_intercept = TRUE, cl = MyCluster)
+RQ1c_p
+#effect of alone not significant
+#Hypothesis 1b not confirmed
+```
+
+Hypothesis 1b is not confirmed.
+
+### Hypothesis 1c
+
+```{r 601c, echo = TRUE}
+lme21RQ1b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis21) # -> Singular Fit
+#1) Change to bobyqa
+lme21RQ1b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #-> Singular Fit
+
+#2) Turn of gradient and hessian
+lme21RQ1b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> No Singular Fit warning
+
+#get first summary
+summary(lme21RQ1b)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ1b , scaled = TRUE)) > 2) / length(resid(lme21RQ1b )) 
+sum(abs(resid(lme21RQ1b , scaled = TRUE)) > 2.5) / length(resid(lme21RQ1b )) 
+sum(abs(resid(lme21RQ1b , scaled = TRUE)) > 3) / length(resid(lme21RQ1b )) 
+
+#2) Homoscedasticity
+plot(lme21RQ1b, type = c('p', 'smooth'))
+#Looks mostly fine
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ1b, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ1b, scaled = TRUE))
+
+#Normal enough, but the qqplot shows quite some outliers in the tails
+
+RQ1b_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), data = df_analysis21, type = 3, method = "KR", test_intercept = TRUE, cl = MyCluster)
+RQ1b_p 
+#Effect of Alone is significant
+by(df_analysis21_2,df_analysis21_2$Alone, summary)
+
+#check contrasts to verify results
+contrasts(df_analysis21$Alone) 
+
+#Hypothesis 1C not confirmed, effect in the opposite direction.
+
+
+```
+
+Hypothesis 1C is not confirmed. In contrast, here the effect also goes into the opposite direction.
+
+### Hypothesis 1d
+
+```{r 601d, echo = TRUE}
+lme21RQ1 <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis21)
+
+#get first summary
+summary(lme21RQ1)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ1 , scaled = TRUE)) > 2) / length(resid(lme21RQ1 ))
+sum(abs(resid(lme21RQ1 , scaled = TRUE)) > 2.5) / length(resid(lme21RQ1 ))
+sum(abs(resid(lme21RQ1 , scaled = TRUE)) > 3) / length(resid(lme21RQ1 ))
+
+#2) Homoscedasticity
+plot(lme21RQ1, type = c('p', 'smooth'))
+#Also somewhat violated
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ1, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ1, scaled = TRUE))
+
+#Normal enough, but the qqplot shows quite some outliers in the tails
+
+
+#Calculate p-values
+RQ1_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis21, type = 3, method = "KR", test_intercept = TRUE, cl = MyCluster)
+
+#Hypothesis 1D is not supported.
+RQ1_p
+
+
+```
+
+Hypothesis 1D is not supported.
+
+### Correction for Multiple Testing
+
+Next we check whether these effects also hold after correction for multiple testing.
+
+```{r 60mt, echo = TRUE}
+
+df_analysis21RQ1_pvalues <- as.data.frame(rbind(RQ1_p$anova_table$`Pr(>F)`, RQ1b_p$anova_table$`Pr(>F)`, RQ1c_p$anova_table$`Pr(>F)`, RQ1d_p$anova_table$`Pr(>F)`))
+
+df_analysis21RQ1_pvalues$adjusted <- p.adjust(df_analysis21RQ1_pvalues$V2, method = "holm")
+#only model 4 remains significant, hence 1A is also confirmed after correction, whereas the effect in the opposite direction at 1C disappears.
+
+df_analysis21RQ1_pvalues$adjusted
+```
+
+Hypothesis 1a is confirmed after correction for multiple testing. The effect observed at 1C also remains significant after correction for multiple testing.
+
+## Research Question 2
+
+### Hypotheses 2Aa and 2Bc
+
+```{r 602a, echo = TRUE}
+lme21RQ2d <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ2d <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #does not convergence
+
+lme21RQ2d <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges , but negative  eigenvalues
+
+lme21RQ2d <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges 
+
+
+#get first summary
+summary(lme21RQ2d)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ2d , scaled = TRUE)) > 2) / length(resid(lme21RQ2d )) 
+sum(abs(resid(lme21RQ2d , scaled = TRUE)) > 2.5) / length(resid(lme21RQ2d )) 
+sum(abs(resid(lme21RQ2d , scaled = TRUE)) > 3) / length(resid(lme21RQ2d )) 
+
+#2) Homoscedasticity
+plot(lme21RQ2d, type = c('p', 'smooth'))
+#looks mostly fine
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ2d, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ2d, scaled = TRUE))
+
+#qqplot shows quite some outliers in the tails
+
+
+#Calculate p-values
+#says the predictor is not centered on zero, but like 15 digits after the comma are 0s
+RQ2d_p <- afex::mixed (HighArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster, expand_re = TRUE)
+RQ2d_p 
+#2Aa not supported. "Support" for 2Bc/d because we predicted no effect and there is no effect
+#Significant effect of Alone
+```
+
+Hypothesis 2Aa is not supported. However, as expected, we find no significant interaction effect (2Bc)
+
+### Hypotheses 2Ab and 2Bd
+
+```{r 602Aa, echo = TRUE}
+
+lme21RQ2c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ2c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #does not convergence
+
+lme21RQ2c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges, but negative eigenvalues
+
+lme21RQ2c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges 
+#get first summary
+summary(lme21RQ2c)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ2c , scaled = TRUE)) > 2) / length(resid(lme21RQ2c ))
+sum(abs(resid(lme21RQ2c , scaled = TRUE)) > 2.5) / length(resid(lme21RQ2c )) 
+sum(abs(resid(lme21RQ2c , scaled = TRUE)) > 3) / length(resid(lme21RQ2c )) 
+
+#2) Homoscedasticity
+plot(lme21RQ2c, type = c('p', 'smooth'))
+#looks mostly fine
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ2c, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ2c, scaled = TRUE))
+
+#Barely Normal and the qqplot shows quite some outliers in the tails
+
+
+#Calculate p-values
+#says the predictor is not centered on zero, but like 15 digits after the comma are 0s
+RQ2c_p <- afex::mixed (HighArousalNegativeAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster, expand_re = TRUE)
+RQ2c_p 
+#2Ab not supported. 2Bc/d "supported", as in we did not predict an effect and we did not observe an effect
+
+```
+
+Hypothesis 2Ab is not supported. However, as expected, we observed no interaction (2Bd).
+
+### Hypotheses 2Ac and 2Ba
+
+```{r 602Ac, echo = TRUE}
+lme21RQ2b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ2b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #does not convergence
+
+lme21RQ2b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges and produces negative eigenvalues
+
+lme21RQ2b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
+
+
+#get first summary
+summary(lme21RQ2b)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ2b , scaled = TRUE)) > 2) / length(resid(lme21RQ2b )) 
+sum(abs(resid(lme21RQ2b , scaled = TRUE)) > 2.5) / length(resid(lme21RQ2b )) 
+sum(abs(resid(lme21RQ2b , scaled = TRUE)) > 3) / length(resid(lme21RQ2b ))
+
+#2) Homoscedasticity
+plot(lme21RQ2b, type = c('p', 'smooth'))
+#looks mostly fine
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ2b, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ2b, scaled = TRUE))
+
+#Normal enough, but the qqplot shows quite some outliers in the tails
+
+
+#Calculate p-values
+#says the predictor is not centered on zero, but like 15 digits after the comma are 0s
+RQ2b_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone + DayLevelNatureScaled || Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), data = df_analysis21, type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster, expand_re = TRUE)
+RQ2b_p
+#2Ac and 2Ba not supported
+
+```
+
+Hypothesis 2Ac and hypothesis 2Ba are not supported.
+
+### Hypotheses 2Ad and 2Bb
+
+```{r 602Ad, echo = TRUE}
+
+lme21RQ2 <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ2 <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #does not convergence
+
+lme21RQ2 <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
+
+
+#get first summary
+summary(lme21RQ2)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ2 , scaled = TRUE)) > 2) / length(resid(lme21RQ2 )) 
+sum(abs(resid(lme21RQ2 , scaled = TRUE)) > 2.5) / length(resid(lme21RQ2 )) 
+sum(abs(resid(lme21RQ2 , scaled = TRUE)) > 3) / length(resid(lme21RQ2 ))
+
+#2) Homoscedasticity
+plot(lme21RQ2, type = c('p', 'smooth'))
+#Trails off strongly in the tails
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ2, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ2, scaled = TRUE))
+
+#Normal enough, but the qqplot shows quite some outliers in the tails
+
+
+#Calculate p-values
+#says the predictor is not centered on zero, but like 15 digits after the comma are 0s
+RQ2_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), data = df_analysis21, type = 3, method = "KR", test_intercept = TRUE, cl = MyCluster)
+RQ2_p
+#no significant hypothesized effects, 
+#Hypothesis 2Ad and 2Bb not supported
+```
+
+Hypothesis 2Ad and hypothesis 2Bb are not supported.
+
+## Research Question 3
+
+### Hypotheses 3Aa and 3Bc
+
+```{r 603Aa, echo = TRUE}
+
+lme21RQ3d <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21) #does not converge
+
+lme21RQ3d <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa"), data = df_analysis21) #does not converge
+
+lme21RQ3d <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), data = df_analysis21) #converges
+
+#get first summary
+summary(lme21RQ3d)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ3d , scaled = TRUE)) > 2) / length(resid(lme21RQ3d )) 
+sum(abs(resid(lme21RQ3d , scaled = TRUE)) > 2.5) / length(resid(lme21RQ3d ))
+sum(abs(resid(lme21RQ3d , scaled = TRUE)) > 3) / length(resid(lme21RQ3d ))
+
+#2) Homoscedasticity
+plot(lme21RQ3d, type = c('p', 'smooth'))
+#looks fine
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ3d, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ3d, scaled = TRUE))
+
+#qqplot shows quite some outliers in the tails
+
+#Calculate p-values
+#says the predictor is not centered on zero, but like 15 digits after the comma are 0s
+RQ3d_p <- afex::mixed (HighArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), data = df_analysis21, type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+RQ3d_p 
+
+```
+
+Hypothesis 3Aa is not supported. However, as expected, there is no interaction (3Bc).
+
+### Hypotheses 3Ab and 3Bd
+
+```{r 603ab, echo = TRUE}
+
+lme21RQ3c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ3c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #does not convergence
+
+lme21RQ3c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
+
+
+
+
+#get first summary
+summary(lme21RQ3c)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ3c , scaled = TRUE)) > 2) / length(resid(lme21RQ3c )) 
+sum(abs(resid(lme21RQ3c , scaled = TRUE)) > 2.5) / length(resid(lme21RQ3c ))
+sum(abs(resid(lme21RQ3c , scaled = TRUE)) > 3) / length(resid(lme21RQ3c ))
+
+#2) Homoscedasticity
+plot(lme21RQ3c, type = c('p', 'smooth'))
+#looks violated
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ3c, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ3c, scaled = TRUE))
+
+#qqplot shows quite some outliers in the tails
+
+
+#Calculate p-values
+#says the predictor is not centered on zero, but like 15 digits after the comma are 0s
+RQ3c_p <- afex::mixed (HighArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+#3Ab not supported, 3Bc/d: No interaction
+RQ3c_p 
+```
+
+Hypothesis 3Ab is not supported. However, as expected, we observed no interaction (3Bd).
+
+### Hypotheses 3Ac and 3Ba
+
+```{r 603Ac, echo = TRUE}
+
+lme21RQ3b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ3b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #does not convergence
+#remove interaction
+lme21RQ3b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges, but produces negative eigenvalue in p-value calculation
+lme21RQ3b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
+
+
+lme21RQ3b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone+DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) # -> converges and also afex likes it
+
+#get first summary
+summary(lme21RQ3b)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ3b , scaled = TRUE)) > 2) / length(resid(lme21RQ3b ))
+sum(abs(resid(lme21RQ3b , scaled = TRUE)) > 2.5) / length(resid(lme21RQ3b )) 
+sum(abs(resid(lme21RQ3b , scaled = TRUE)) > 3) / length(resid(lme21RQ3b ))
+
+#2) Homoscedasticity
+plot(lme21RQ3b, type = c('p', 'smooth'))
+#looks good
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ3b, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ3b, scaled = TRUE))
+
+#qqplot shows some outliers in the tails
+#Calculate p-values
+#says the predictor is not centered on zero, but like 15 digits after the comma are 0s
+RQ3b_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone+DayLevelIntentionalitySolitudeScaled || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), expand_re = TRUE, type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+RQ3b_p 
+#3Ac and 3Ba not supported
+
+```
+
+Hypotheses 3Ac and 3Ba are not supported.
+
+### Hypotheses 3Ad and 3Bb
+
+```{r 603Ad, echo = TRUE}
+
+lme21RQ3 <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ3 <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #does not convergence
+
+lme21RQ3 <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges 
+
+
+#get first summary
+summary(lme21RQ3)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ3 , scaled = TRUE)) > 2) / length(resid(lme21RQ3 )) 
+sum(abs(resid(lme21RQ3 , scaled = TRUE)) > 2.5) / length(resid(lme21RQ3 )) 
+sum(abs(resid(lme21RQ3 , scaled = TRUE)) > 3) / length(resid(lme21RQ3 )) 
+
+#2) Homoscedasticity
+plot(lme21RQ3, type = c('p', 'smooth'))
+#skewed in the right tail
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ3, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ3, scaled = TRUE))
+
+#qqplot shows quite some outliers in the tails
+
+#Calculate p-values
+#says the predictor is not centered on zero, but like 15 digits after the comma are 0s
+RQ3_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+#3Ad and 3Bb not supported
+RQ3_p 
+```
+
+Hypotheses 3Ad and 3Bb are not supported.
+
+## Research Question 4
+
+### Hypotheses 4Aa and 4Ba Day-Level
+
+```{r 604Aday, echo = TRUE}
+llme21RQ4d.day <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ4d.day <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #does not convergence
+
+lme21RQ4d.day <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges, but negative eigenvalues
+
+lme21RQ4d.day <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
+
+
+#get first summary
+summary(lme21RQ4d.day)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ4d.day , scaled = TRUE)) > 2) / length(resid(lme21RQ4d.day )) 
+sum(abs(resid(lme21RQ4d.day , scaled = TRUE)) > 2.5) / length(resid(lme21RQ4d.day ))
+sum(abs(resid(lme21RQ4d.day , scaled = TRUE)) > 3) / length(resid(lme21RQ4d.day )) 
+#2) Homoscedasticity
+plot(lme21RQ4d.day, type = c('p', 'smooth'))
+#looks good
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ4d.day, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ4d.day, scaled = TRUE))
+
+#qqplot shows quite some outliers in the tails
+RQ4d.day_p <- afex::mixed (HighArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  expand_re = TRUE, cl = MyCluster)
+#Hypothesis 4Aa and 4Ba day not supported
+RQ4d.day_p 
+```
+Hypotheses 4Aa and 4Ba day-level are not supported.
+
+### Hypotheses 4Ab and 4Bb Day-Level
+
+```{r 604Abday, echo = TRUE}
+
+
+lme21RQ4c.day <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ4c.day <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #does not convergence
+
+lme21RQ4c.day <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
+
+
+
+#get first summary
+summary(lme21RQ4c.day)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ4c.day , scaled = TRUE)) > 2) / length(resid(lme21RQ4c.day ))
+sum(abs(resid(lme21RQ4c.day , scaled = TRUE)) > 2.5) / length(resid(lme21RQ4c.day )) 
+sum(abs(resid(lme21RQ4c.day , scaled = TRUE)) > 3) / length(resid(lme21RQ4c.day ))
+#2) Homoscedasticity
+plot(lme21RQ4c.day, type = c('p', 'smooth'))
+#looks good
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ4c.day, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ4c.day, scaled = TRUE))
+
+#qqplot shows quite some outliers in the tails
+
+#Calculate p-values
+#says the predictor is not centered on zero, but like 15 digits after the comma are 0s
+RQ4c.day_p <- afex::mixed (HighArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+#Hypothesis 4Ab and 4Bb day not supported
+RQ4c.day_p
+```
+
+Hypotheses 4Ab and 4Bb day-level are not supported.
+
+### Hypotheses 4Ac and 4Bc Day-Level
+
+```{r 604Acday, echo = TRUE}
+
+lme21RQ4b.day <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not converge
+
+#
+lme21RQ4b.day <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa"), data = df_analysis21) #-> does not converge
+
+
+lme21RQ4b.day <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay),control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), data = df_analysis21) #-> converges
+
+
+#get first summary
+summary(lme21RQ4b.day)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ4b.day , scaled = TRUE)) > 2) / length(resid(lme21RQ4b.day )) 
+sum(abs(resid(lme21RQ4b.day , scaled = TRUE)) > 2.5) / length(resid(lme21RQ4b.day )) 
+sum(abs(resid(lme21RQ4b.day , scaled = TRUE)) > 3) / length(resid(lme21RQ4b.day )) 
+
+#2) Homoscedasticity
+plot(lme21RQ4b.day, type = c('p', 'smooth'))
+#looks fine
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ4b.day, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ4b.day, scaled = TRUE))
+
+#qqplot shows quite some outliers in the tails
+#Calculate p-values
+#says the predictor is not centered on zero, but like 15 digits after the comma are 0s
+RQ4b.day_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay),control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), data = df_analysis21, type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+#Hypothesis 4Ac day not supported, 4Bc/d: No Interaction
+RQ4b.day_p
+
+```
+
+Hypothesis 4Ac day is not supported. However, as expected, there is no interaction (4Bc).
+
+### Hypotheses 4Ad and 4Bd Day-Level
+
+```{r 604Adday, echo = TRUE}
+
+lme21RQ4.day <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ4.day <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #does not convergence
+
+lme21RQ4.day <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
+
+
+#get first summary
+summary(lme21RQ4.day)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ4.day , scaled = TRUE)) > 2) / length(resid(lme21RQ4.day ))
+sum(abs(resid(lme21RQ4.day , scaled = TRUE)) > 2.5) / length(resid(lme21RQ4.day )) 
+sum(abs(resid(lme21RQ4.day , scaled = TRUE)) > 3) / length(resid(lme21RQ4.day ))
+
+#2) Homoscedasticity
+plot(lme21RQ4.day, type = c('p', 'smooth'))
+#looks violated
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ4.day, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ4.day, scaled = TRUE))
+
+#qqplot shows quite some outliers in the tails
+
+RQ4.day_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+#Hypothesis 4Ad day not supported, 4Bc/d: No Interaction
+RQ4.day_p 
+```
+
+Hypothesis 4Ad day-level is not supported. However, as expected, there is no interaction (4Bd).
+
+### Hypotheses 4Aa and 4Ba Person-Level
+
+```{r 604aperson, echo = TRUE}
+lme21RQ4d.individual <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ4d.individual <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #-> does not convergence
+
+lme21RQ4d.individual <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges, but negative eigenvalues
+
+lme21RQ4d.individual <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE))
+
+#get first summary
+summary(lme21RQ4d.individual)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ4d.individual , scaled = TRUE)) > 2) / length(resid(lme21RQ4d.individual ))
+sum(abs(resid(lme21RQ4d.individual , scaled = TRUE)) > 2.5) / length(resid(lme21RQ4d.individual ))  
+sum(abs(resid(lme21RQ4d.individual , scaled = TRUE)) > 3) / length(resid(lme21RQ4d.individual ))
+
+#2) Homoscedasticity
+plot(lme21RQ4d.individual, type = c('p', 'smooth'))
+#looks good
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ4d.individual, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ4d.individual, scaled = TRUE))
+
+#qqplot shows outliers in the tails
+
+RQ4d.individual_p <- afex::mixed (HighArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa",  calc.derivs = FALSE), type = 3, method = "KR", expand_re = TRUE, test_intercept = TRUE,  cl = MyCluster)
+RQ4d.individual_p
+#Hypothesis 4Aa and 4Ba not suported
+```
+
+Hypotheses 4Aa and 4Ba person-level are not supported.
+
+### Hypotheses 4Ab and 4Bb Person-Level
+
+```{r 604Abperson, echo = TRUE}
+lme21RQ4c.individual <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ4c.individual <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #-> does not convergence
+
+lme21RQ4c.individual <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
+
+
+
+
+#get first summary
+summary(lme21RQ4c.individual)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ4c.individual , scaled = TRUE)) > 2) / length(resid(lme21RQ4c.individual )) 
+sum(abs(resid(lme21RQ4c.individual , scaled = TRUE)) > 2.5) / length(resid(lme21RQ4c.individual ))
+sum(abs(resid(lme21RQ4c.individual , scaled = TRUE)) > 3) / length(resid(lme21RQ4c.individual )) 
+#2) Homoscedasticity
+plot(lme21RQ4c.individual, type = c('p', 'smooth'))
+#looks slightly violated
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ4c.individual, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ4c.individual, scaled = TRUE))
+
+#qqplot shows strong outliers in the tails
+#RQ4c.individual_p <- afex::mixed (HighArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+#Fehler in h(simpleError(msg, call)) : 
+#Fehler bei der Auswertung des Argumentes 'x' bei der Methodenauswahl für Funktion 'forceSymmetric': Lapackroutine dgesv: System ist genau singulär: U[12,12] = 0
+
+RQ4c.individual_p <- afex::mixed (HighArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "S",  cl = MyCluster)
+RQ4c.individual_p 
+```
+
+Hypotheses 4Ab and 4Bb are not supported. 
+
+### Hypotheses 4Ac and 4Bc Person-Level
+
+```{r 604Acperson, echo = TRUE}
+lme21RQ4b.individual <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ4b.individual <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #-> does not convergence
+
+lme21RQ4b.individual <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges, but negative eigenvalues
+
+lme21RQ4b.individual <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
+
+
+#get first summary
+summary(lme21RQ4b.individual)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ4b.individual , scaled = TRUE)) > 2) / length(resid(lme21RQ4b.individual ))
+sum(abs(resid(lme21RQ4b.individual , scaled = TRUE)) > 2.5) / length(resid(lme21RQ4b.individual ))  
+sum(abs(resid(lme21RQ4b.individual , scaled = TRUE)) > 3) / length(resid(lme21RQ4b.individual ))
+
+#2) Homoscedasticity
+plot(lme21RQ4b.individual, type = c('p', 'smooth'))
+#looks fine
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ4b.individual, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ4b.individual, scaled = TRUE))
+
+#qqplot shows quite some outliers in the tails
+#RQ4b.individual_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+
+#Fehler bei der Auswertung des Argumentes 'x' bei der Methodenauswahl für Funktion 'forceSymmetric': System ist für den Rechner singulär: reziproke Konditionszahl = 1.80696e-16
+
+RQ4b.individual_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  || Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "S",  cl = MyCluster, expand_re = TRUE)
+RQ4b.individual_p
+#Hypothesis 4Ac individual not supported, 4Bc/d: No Interaction
+```
+
+Hypothesis 4Ac person-level is not supported. However, there is no significant interaction (as expected 4Bc).
+
+### Hypotheses 4Ad and 4Bd Person-Level
+
+```{r 604adperson, echo = TRUE}
+
+lme21RQ4.individual <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21) #-> does not convergence
+
+lme21RQ4.individual <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa")) #-> does not convergence
+
+lme21RQ4.individual <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges, but shows eigenvalue issues
+
+lme21RQ4.individual <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone+StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE))
+
+#get first summary
+summary(lme21RQ4.individual)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme21RQ4.individual , scaled = TRUE)) > 2) / length(resid(lme21RQ4.individual )) 
+sum(abs(resid(lme21RQ4.individual , scaled = TRUE)) > 2.5) / length(resid(lme21RQ4.individual ))
+sum(abs(resid(lme21RQ4.individual , scaled = TRUE)) > 3) / length(resid(lme21RQ4.individual ))
+
+#2) Homoscedasticity
+plot(lme21RQ4.individual, type = c('p', 'smooth'))
+#looks violated
+
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme21RQ4.individual, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme21RQ4.individual, scaled = TRUE))
+
+#qqplot shows quite some outliers in the tails
+#Calculate p-values
+#says the predictor is not centered on zero, but like 15 digits after the comma are 0s
+RQ4.individual_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone+StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis21, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+#Hypothesis 4Ad individual not supported, 4Bc/d: No Interaction
+RQ4.individual_p 
+```
+
+Hypothesis 4Ad person-level is not supported. Moreover, as expected, there was no interaction (4Ad).

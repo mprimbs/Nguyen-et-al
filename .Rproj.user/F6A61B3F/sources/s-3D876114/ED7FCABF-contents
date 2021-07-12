@@ -1,0 +1,215 @@
+# Understanding the Data
+
+In the following section we will try to understand the data. To that end, we first create multiple visualisations of all important variables. We hereby restrict ourselves to visualising the data the main analyses will be based on. As stated in the pre-registration, we conduct our main analyses based on all participants who completed at least 50% of the daily surveys.
+
+
+
+## Preparations
+
+Now, we can create a new dataframe containing only participants who completed more than 50% of all surveys (17.5, rounded up = 18)
+
+
+```{r Select18, echo = TRUE}
+#select only participants with 18 or higher
+df_analysis18 <- subset(df, df$Surveys.completed >= 18)
+
+```
+
+Next, we scale all our continuous independent variables.
+
+```{r Scaling, echo = TRUE}
+df_analysis18$StructureForSolitudeIndividualScaled <- scale(df_analysis18$StructureForSolitudeIndividual)
+df_analysis18$DayLevelIntentionalitySolitudeScaled <- scale(df_analysis18$DayLevelIntentionalitySolitude)
+df_analysis18$DayLevelNatureScaled <- scale(df_analysis18$DayLevelNature)
+df_analysis18$DayLevelStructureSolitudeScaled <- scale(df_analysis18$DayLevelStructureSolitude)
+```
+
+
+## Variable Overview
+
+Below you can find an overview and a summary over all central variables used in the analyses. More detailled descriptions of the variables can also be found in the pre-registration (https://osf.io/efn3h/). Variables with `day`in the name always code the average score of all measurements taken on the same day.
+
+### ESM Measurements
+
+`Alone`: Codes whether participant where alone or in a social situation at the time they completed the survey. `0` indicates that they were not alone, `1` indicates that they were alone.
+
+```{r AloneDesc, echo = FALSE}
+summary(df_analysis18$Alone)
+
+```
+
+`DayLevelStructureSolitude`: Codes whether participants had any goal they wanted to direct their attention to while being alone. A higher score indicates more structure. `DayLevelStructureSolitudeScaled` is the scaled version of this variable.
+
+```{r DayStructureDesc, echo = FALSE}
+summary(df_analysis18$DayLevelStructureSolitude)
+
+```
+
+
+`DayLevelIntentionalitySolitude`: Codes whether participants were purposefully alone or whether they wished they were interacting with someone. `DayLevelIntentionalitySolitudeScaled` is the scaled version of this variable.
+
+```{r DayIntentionalityDesc, echo = FALSE}
+summary(df_analysis18$DayLevelIntentionalitySolitude)
+
+```
+
+
+`DayLevelNature`: Codes whether participants were in a natural or a built environment. A higher score indicates a more natural environment. `DayLevelNatureScaled`is the scaled version of this variable. 
+
+```{r DayNatureDesc, echo = FALSE}
+summary(df_analysis18$DayLevelNature)
+
+```
+
+`SubjDay`: This variable codes the combination of subject and day following https://psyarxiv.com/xf2pw/
+
+`LowArousalNegativeAffectMean`: Mean score of 7 affect items. Higher scores indicate higher mean levels of this affect type. The items used to create the mean scores of all affect variables can be viewed on https://osf.io/wuqy9/. 
+
+```{r LowNegDesc, echo = FALSE}
+summary(df_analysis18$LowArousalNegativeAffectMean)
+
+```
+
+
+`HighArousalNegativeAffectMean`: Mean score of 9 affect items. Higher scores indicate higher mean levels of this affect type.
+
+```{r HighNegDesc, echo = FALSE}
+summary(df_analysis18$HighArousalNegativeAffectMean)
+
+```
+
+`LowArousalPositiveAffectMean`: Means score of 7 affect items. Higher scores indicate higher mean levels of this affect type.
+
+```{r LowPosDesc, echo = FALSE}
+summary(df_analysis18$LowArousalPositiveAffectMean)
+
+```
+
+
+`HighArousalPositiveAffectMean`: Mean score of 9 affect items. Higher scores indicate higher mean levels of this affect type.
+
+```{r HighPosDesc, echo = FALSE}
+summary(df_analysis18$HighArousalPositiveAffectMean)
+
+```
+
+### Person-level Measurements
+
+`StructureForSolitudeIndividual`: Summaryscore of 5-item questionnaire about structure for solitude. One measurement per individual. `StructureForSolitudeIndividualScaled` is the scaled version of this variable.
+
+```{r PersonStructureDesc, echo = FALSE}
+summary(df_analysis18$StructureForSolitudeIndividual)
+
+```
+
+
+## Visualisations
+
+First, we begin to look at the data by looking at the densityplots for each dependent variable by level of ` Alone`.
+
+```{r Qplots, echo = TRUE}
+qplot (LowArousalNegativeAffectMean, data = df_analysis18, geom = "density", color = Alone, na.rm = TRUE)
+qplot (LowArousalPositiveAffectMean, data = df_analysis18, geom = "density", color = Alone, na.rm = TRUE)
+qplot (HighArousalNegativeAffectMean, data = df_analysis18, geom = "density", color = Alone, na.rm = TRUE)
+qplot (HighArousalPositiveAffectMean, data = df_analysis18, geom = "density", color = Alone, na.rm = TRUE)
+```
+
+Next, we visualise some individual differences among our participants using xyplots.
+
+```{r XYplots, echo = TRUE}
+#visualise individual differences among participants
+lattice::xyplot(LowArousalNegativeAffectMean ~ Alone | Participant.ID, strip = FALSE, data = df_analysis18, na.rm = TRUE)
+lattice::xyplot(LowArousalPositiveAffectMean ~ Alone | Participant.ID, strip = FALSE, data = df_analysis18, na.rm = TRUE)
+lattice::xyplot(HighArousalNegativeAffectMean ~ Alone | Participant.ID, strip = FALSE, data = df_analysis18, na.rm = TRUE)
+lattice::xyplot(HighArousalPositiveAffectMean ~ Alone | Participant.ID, strip = FALSE, data = df_analysis18, na.rm = TRUE)
+
+```
+
+Afterwards, we check the correlations of each dependent variable with the moderator day-level exposure to nature.
+
+```{r NaturePlots, echo = TRUE}
+#Correlation of Nature with Each Outcome Variable for each level of alone
+ggplot(data = df_analysis18, aes(LowArousalNegativeAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point() + geom_smooth(method = "lm")
+ggplot(data = df_analysis18, aes(LowArousalPositiveAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point() + geom_smooth(method = "lm")
+ggplot(data = df_analysis18, aes(HighArousalNegativeAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point() + geom_smooth(method = "lm")
+ggplot(data = df_analysis18, aes(HighArousalPositiveAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point() + geom_smooth(method = "lm")
+```
+
+And now for day-level intentionality.
+
+```{r Intentionalityplots, echo = TRUE}
+#Correlation of DayLevelIntentionality with Outcome (we only calculate these for alone anyway, so the above graphs would not make sense)
+ggscatter(df_analysis18, x = "LowArousalNegativeAffectMean", y = "DayLevelIntentionalitySolitudeScaled", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "LowArousalNegativeAffectMean", ylab = "DayLevelIntentionalitySolitudeScaled", na.rm = TRUE)
+
+ggscatter(df_analysis18, x = "LowArousalPositiveAffectMean", y = "DayLevelIntentionalitySolitudeScaled", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "LowArousalPositiveAffectMean", ylab = "DayLevelIntentionalitySolitudeScaled", na.rm = TRUE)
+
+ggscatter(df_analysis18, x = "HighArousalNegativeAffectMean", y = "DayLevelIntentionalitySolitudeScaled", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "HighArousalNegativeAffectMean", ylab = "DayLevelIntentionalitySolitudeScaled", na.rm = TRUE)
+
+ggscatter(df_analysis18, x = "HighArousalPositiveAffectMean", y = "DayLevelIntentionalitySolitudeScaled", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "HighArousalPositiveAffectMean", ylab = "DayLevelIntentionalitySolitudeScaled", na.rm = TRUE)
+```
+
+And for day-level structure.
+
+```{r DayStructurePlots, echo = TRUE}
+#Correlation of DayLevelStructureSolitude with Outcome
+ggscatter(df_analysis18, x = "LowArousalNegativeAffectMean", y = "DayLevelStructureSolitudeScaled", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "LowArousalNegativeAffectMean", ylab = "DayLevelStructureSolitudeScaled", na.rm = TRUE)
+
+ggscatter(df_analysis18, x = "LowArousalPositiveAffectMean", y = "DayLevelStructureSolitudeScaled", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "LowArousalPositiveAffectMean", ylab = "DayLevelStructureSolitudeScaled", na.rm = TRUE)
+
+ggscatter(df_analysis18, x = "HighArousalNegativeAffectMean", y = "DayLevelStructureSolitudeScaled", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "HighArousalNegativeAffectMean", ylab = "DayLevelStructureSolitudeScaled", na.rm = TRUE)
+
+ggscatter(df_analysis18, x = "HighArousalPositiveAffectMean", y = "DayLevelStructureSolitudeScaled", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "HighArousalPositiveAffectMean", ylab = "DayLevelStructureSolitudeScaled", na.rm = TRUE)
+
+```
+
+And for individual-level structure.
+
+```{r IndividualStructurePlots, echo = TRUE}
+#Correlation of IndividualLevelStructure
+#Note: This has much more data than the two above, because there are not many alone periods.
+ggscatter(df_analysis18, x = "LowArousalNegativeAffectMean", y = "StructureForSolitudeIndividualScaled", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "LowArousalNegativeAffectMean", ylab = "StructureForSolitudeIndividualScaled", na.rm = TRUE)
+
+ggscatter(df_analysis18, x = "LowArousalPositiveAffectMean", y = "StructureForSolitudeIndividualScaled", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "LowArousalPositiveAffectMean", ylab = "StructureForSolitudeIndividualScaled", na.rm = TRUE)
+
+ggscatter(df_analysis18, x = "HighArousalNegativeAffectMean", y = "StructureForSolitudeIndividualScaled", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "HighArousalNegativeAffectMean", ylab = "StructureForSolitudeIndividualScaled", na.rm = TRUE)
+
+ggscatter(df_analysis18, x = "HighArousalPositiveAffectMean", y = "StructureForSolitudeIndividualScaled", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "HighArousalPositiveAffectMean", ylab = "StructureForSolitudeIndividualScaled", na.rm = TRUE)
+```
+
+

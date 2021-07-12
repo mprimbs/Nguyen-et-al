@@ -1,0 +1,41 @@
+# Setting Up
+
+## Loading Packages
+We begin by loading all R packages we used. The `pacman` package allows us to install and load all R packages used in the present project. Please note, that this will install the most current version of each package on your PC (only if you don´t have a package installed yet). The `renv::restore` function restores the packages in the version we used. For that, you need to place the `renv.lock`file in the same folder as the rest of the project.
+
+
+```{r Packages, echo=TRUE}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, here, plyr, tidyr, dplyr, car, lme4, lattice, parallel, ggplot2, ggpubr, predictmeans, rmarkdown, tinytex, renv)
+
+renv::restore()
+```
+
+
+
+Next, we want to set some general options.
+
+```{r Preparation, echo=TRUE}
+options(scipen = 999)
+
+#create cluster for mixed models. Assumes that you have more than 1 core.
+n_cores <- detectCores()
+MyCluster <- makeCluster(rep("localhost", n_cores - 1))
+
+options(contrasts = c("contr.sum", "contr.poly"))
+```
+
+## Loading Data
+Next, we load our dataframe. Initially, there were 3 dataframes: 1) EMA Data 2) Predictor Questionnaires 3) Number of Surveys completed. However, each of these dataframes containing identifying information. To ensure the privacy of our participants, we removed the identifiying information and combined the datasets into one. As such, we load:
+
+* `AnonymousDataframe.csv` is the anonymised version of the experience sampling data. Moreover, it contains the total number of surveys each participant completed and the person-level structure for solitude measurement assessed in the initial questionnaires.
+
+```{r LoadData, echo = TRUE}
+df <- read.csv(here::here("AnonymousDataframe.csv"))
+#If there are empty cells, we code them as NA
+df[df==""] <- NA
+df[df==" "] <- NA
+```
+
+
+

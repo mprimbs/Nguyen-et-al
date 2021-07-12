@@ -1,0 +1,15 @@
+--- 
+title: "Further investigation of solitude as tool for affective self-regulation: EMA study investigating changes in affect when people spend time alone"
+author: "Thuy-vy Nguyen, Maximilian A. Primbs, Netta Weinstein"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "This is an online supplement presenting analysis code and results for the same-titled paper by Ngyuen and colleagues."
+---
+
+# Welcome
+
+This online supplemement presents the analysis code and results for the paper "Further investigation of solitude as tool for affective self-regulation: EMA study investigating changes in affect when people spend time alone" by Nguyen and colleagues. The data was pre-registered and the data can be downloaded from the OSF (https://osf.io/wuqy9/). The pre-print associated with this paper can be found at INSERT LOCATION. This website is hosted on github and can be downloaded at INSERT LOCATION.

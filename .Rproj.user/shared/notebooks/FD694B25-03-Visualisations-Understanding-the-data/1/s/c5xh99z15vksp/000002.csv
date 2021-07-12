@@ -1,0 +1,7 @@
+"0","df_analysis18$StructureForSolitudeIndividualScaled <- scale(df_analysis18$StructureForSolitudeIndividual)"
+"0","df_analysis18$DayLevelIntentionalitySolitudeScaled <- scale(df_analysis18$DayLevelIntentionalitySolitude)"
+"0","df_analysis18$DayLevelNatureScaled <- scale(df_analysis18$DayLevelNature)"
+"0","df_analysis18$DayLevelStructureSolitudeScaled <- scale(df_analysis18$DayLevelStructureSolitude)"
+"2","Fehler in array(x, c(length(x), 1L), if (!is.null(names(x))) list(names(x),  : 
+  'data' muss vom Typ vector sein, war 'NULL'
+"
