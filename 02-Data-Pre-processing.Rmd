@@ -213,5 +213,6 @@ df$NumericQuestion.6 <- as.numeric(as.character(df$FactorQuestion.6))
 
 df <- df %>% mutate(NumericQuestion.6.Alone = ifelse(Alone == 1, NumericQuestion.6, NA))
 df <- df %>% ddply(c('Day', 'Participant.ID'), transform, DayLevelStructureSolitude= mean(NumericQuestion.6.Alone, na.rm = TRUE))
+
 ```
 

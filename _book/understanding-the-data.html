@@ -131,7 +131,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Further investigation of solitude as tool for affective self-regulation: EMA study investigating changes in affect when people spend time alone</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome</a></li>
@@ -275,13 +275,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="preparations" class="section level2">
 <h2><span class="header-section-number">4.1</span> Preparations</h2>
 <p>Now, we can create a new dataframe containing only participants who completed more than 50% of all surveys (17.5, rounded up = 18)</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co">#select only participants with 18 or higher</span></a>
-<a class="sourceLine" id="cb17-2" title="2">df_analysis18 &lt;-<span class="st"> </span><span class="kw">subset</span>(df, df<span class="op">$</span>Surveys.completed <span class="op">&gt;=</span><span class="st"> </span><span class="dv">18</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co">#select only participants with 18 or higher</span></a>
+<a class="sourceLine" id="cb15-2" title="2">df_analysis18 &lt;-<span class="st"> </span><span class="kw">subset</span>(df, df<span class="op">$</span>Surveys.completed <span class="op">&gt;=</span><span class="st"> </span><span class="dv">18</span>)</a></code></pre></div>
 <p>Next, we scale all our continuous independent variables.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1">df_analysis18<span class="op">$</span>StructureForSolitudeIndividualScaled &lt;-<span class="st"> </span><span class="kw">scale</span>(df_analysis18<span class="op">$</span>StructureForSolitudeIndividual)</a>
-<a class="sourceLine" id="cb18-2" title="2">df_analysis18<span class="op">$</span>DayLevelIntentionalitySolitudeScaled &lt;-<span class="st"> </span><span class="kw">scale</span>(df_analysis18<span class="op">$</span>DayLevelIntentionalitySolitude)</a>
-<a class="sourceLine" id="cb18-3" title="3">df_analysis18<span class="op">$</span>DayLevelNatureScaled &lt;-<span class="st"> </span><span class="kw">scale</span>(df_analysis18<span class="op">$</span>DayLevelNature)</a>
-<a class="sourceLine" id="cb18-4" title="4">df_analysis18<span class="op">$</span>DayLevelStructureSolitudeScaled &lt;-<span class="st"> </span><span class="kw">scale</span>(df_analysis18<span class="op">$</span>DayLevelStructureSolitude)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">df_analysis18<span class="op">$</span>StructureForSolitudeIndividualScaled &lt;-<span class="st"> </span><span class="kw">scale</span>(df_analysis18<span class="op">$</span>StructureForSolitudeIndividual)</a>
+<a class="sourceLine" id="cb16-2" title="2">df_analysis18<span class="op">$</span>DayLevelIntentionalitySolitudeScaled &lt;-<span class="st"> </span><span class="kw">scale</span>(df_analysis18<span class="op">$</span>DayLevelIntentionalitySolitude)</a>
+<a class="sourceLine" id="cb16-3" title="3">df_analysis18<span class="op">$</span>DayLevelNatureScaled &lt;-<span class="st"> </span><span class="kw">scale</span>(df_analysis18<span class="op">$</span>DayLevelNature)</a>
+<a class="sourceLine" id="cb16-4" title="4">df_analysis18<span class="op">$</span>DayLevelStructureSolitudeScaled &lt;-<span class="st"> </span><span class="kw">scale</span>(df_analysis18<span class="op">$</span>DayLevelStructureSolitude)</a></code></pre></div>
 </div>
 <div id="variable-overview" class="section level2">
 <h2><span class="header-section-number">4.2</span> Variable Overview</h2>
@@ -317,7 +317,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="person-level-measurements" class="section level3">
 <h3><span class="header-section-number">4.2.2</span> Person-level Measurements</h3>
 <p><code>StructureForSolitudeIndividual</code>: Summaryscore of 5-item questionnaire about structure for solitude. One measurement per individual. <code>StructureForSolitudeIndividualScaled</code> is the scaled version of this variable.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">summary</span>(df_analysis18<span class="op">$</span>StructureForSolitudeIndividual)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">summary</span>(df_analysis18<span class="op">$</span>StructureForSolitudeIndividual)</a></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##    1.20    2.60    3.20    3.22    4.00    5.00</code></pre>
 </div>
@@ -325,180 +325,140 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="visualisations" class="section level2">
 <h2><span class="header-section-number">4.3</span> Visualisations</h2>
 <p>First, we begin to look at the data by looking at the densityplots for each dependent variable by level of <code>Alone</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">qplot</span> (LowArousalNegativeAffectMean, <span class="dt">data =</span> df_analysis18, <span class="dt">geom =</span> <span class="st">&quot;density&quot;</span>, <span class="dt">color =</span> Alone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">qplot</span> (LowArousalNegativeAffectMean, <span class="dt">data =</span> df_analysis18, <span class="dt">geom =</span> <span class="st">&quot;density&quot;</span>, <span class="dt">color =</span> Alone)</a></code></pre></div>
 <p><img src="Bookdown-Version_files/figure-html/Qplots-1.png" width="672" /></p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">qplot</span> (LowArousalPositiveAffectMean, <span class="dt">data =</span> df_analysis18, <span class="dt">geom =</span> <span class="st">&quot;density&quot;</span>, <span class="dt">color =</span> Alone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">qplot</span> (LowArousalPositiveAffectMean, <span class="dt">data =</span> df_analysis18, <span class="dt">geom =</span> <span class="st">&quot;density&quot;</span>, <span class="dt">color =</span> Alone)</a></code></pre></div>
 <p><img src="Bookdown-Version_files/figure-html/Qplots-2.png" width="672" /></p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">qplot</span> (HighArousalNegativeAffectMean, <span class="dt">data =</span> df_analysis18, <span class="dt">geom =</span> <span class="st">&quot;density&quot;</span>, <span class="dt">color =</span> Alone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">qplot</span> (HighArousalNegativeAffectMean, <span class="dt">data =</span> df_analysis18, <span class="dt">geom =</span> <span class="st">&quot;density&quot;</span>, <span class="dt">color =</span> Alone)</a></code></pre></div>
 <p><img src="Bookdown-Version_files/figure-html/Qplots-3.png" width="672" /></p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">qplot</span> (HighArousalPositiveAffectMean, <span class="dt">data =</span> df_analysis18, <span class="dt">geom =</span> <span class="st">&quot;density&quot;</span>, <span class="dt">color =</span> Alone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">qplot</span> (HighArousalPositiveAffectMean, <span class="dt">data =</span> df_analysis18, <span class="dt">geom =</span> <span class="st">&quot;density&quot;</span>, <span class="dt">color =</span> Alone)</a></code></pre></div>
 <p><img src="Bookdown-Version_files/figure-html/Qplots-4.png" width="672" /></p>
 <p>Next, we visualise some individual differences among our participants using xyplots.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="co">#visualise individual differences among participants</span></a>
-<a class="sourceLine" id="cb33-2" title="2">lattice<span class="op">::</span><span class="kw">xyplot</span>(LowArousalNegativeAffectMean <span class="op">~</span><span class="st"> </span>Alone <span class="op">|</span><span class="st"> </span>Participant.ID, <span class="dt">strip =</span> <span class="ot">FALSE</span>, <span class="dt">data =</span> df_analysis18, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="co">#visualise individual differences among participants</span></a>
+<a class="sourceLine" id="cb31-2" title="2">lattice<span class="op">::</span><span class="kw">xyplot</span>(LowArousalNegativeAffectMean <span class="op">~</span><span class="st"> </span>Alone <span class="op">|</span><span class="st"> </span>Participant.ID, <span class="dt">strip =</span> <span class="ot">FALSE</span>, <span class="dt">data =</span> df_analysis18, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="Bookdown-Version_files/figure-html/XYplots-1.png" width="672" /></p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">lattice<span class="op">::</span><span class="kw">xyplot</span>(LowArousalPositiveAffectMean <span class="op">~</span><span class="st"> </span>Alone <span class="op">|</span><span class="st"> </span>Participant.ID, <span class="dt">strip =</span> <span class="ot">FALSE</span>, <span class="dt">data =</span> df_analysis18, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1">lattice<span class="op">::</span><span class="kw">xyplot</span>(LowArousalPositiveAffectMean <span class="op">~</span><span class="st"> </span>Alone <span class="op">|</span><span class="st"> </span>Participant.ID, <span class="dt">strip =</span> <span class="ot">FALSE</span>, <span class="dt">data =</span> df_analysis18, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="Bookdown-Version_files/figure-html/XYplots-2.png" width="672" /></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">lattice<span class="op">::</span><span class="kw">xyplot</span>(HighArousalNegativeAffectMean <span class="op">~</span><span class="st"> </span>Alone <span class="op">|</span><span class="st"> </span>Participant.ID, <span class="dt">strip =</span> <span class="ot">FALSE</span>, <span class="dt">data =</span> df_analysis18, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1">lattice<span class="op">::</span><span class="kw">xyplot</span>(HighArousalNegativeAffectMean <span class="op">~</span><span class="st"> </span>Alone <span class="op">|</span><span class="st"> </span>Participant.ID, <span class="dt">strip =</span> <span class="ot">FALSE</span>, <span class="dt">data =</span> df_analysis18, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="Bookdown-Version_files/figure-html/XYplots-3.png" width="672" /></p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1">lattice<span class="op">::</span><span class="kw">xyplot</span>(HighArousalPositiveAffectMean <span class="op">~</span><span class="st"> </span>Alone <span class="op">|</span><span class="st"> </span>Participant.ID, <span class="dt">strip =</span> <span class="ot">FALSE</span>, <span class="dt">data =</span> df_analysis18, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">lattice<span class="op">::</span><span class="kw">xyplot</span>(HighArousalPositiveAffectMean <span class="op">~</span><span class="st"> </span>Alone <span class="op">|</span><span class="st"> </span>Participant.ID, <span class="dt">strip =</span> <span class="ot">FALSE</span>, <span class="dt">data =</span> df_analysis18, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="Bookdown-Version_files/figure-html/XYplots-4.png" width="672" /></p>
 <p>Afterwards, we check the correlations of each dependent variable with the moderator day-level exposure to nature.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="co">#Correlation of Nature with Each Outcome Variable for each level of alone</span></a>
-<a class="sourceLine" id="cb37-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> df_analysis18, <span class="kw">aes</span>(LowArousalNegativeAffectMean, DayLevelNatureScaled, <span class="dt">colour =</span> Alone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="co">#Correlation of Nature with Each Outcome Variable for each level of alone</span></a>
+<a class="sourceLine" id="cb35-2" title="2"><span class="kw">ggplot</span>(<span class="dt">data =</span> df_analysis18, <span class="kw">aes</span>(LowArousalNegativeAffectMean, DayLevelNatureScaled, <span class="dt">colour =</span> Alone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 52 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 52 rows containing missing values
-## (geom_point).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/NaturePlots-1.png" width="672" /></p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> df_analysis18, <span class="kw">aes</span>(LowArousalPositiveAffectMean, DayLevelNatureScaled, <span class="dt">colour =</span> Alone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> df_analysis18, <span class="kw">aes</span>(LowArousalPositiveAffectMean, DayLevelNatureScaled, <span class="dt">colour =</span> Alone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 25 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 25 rows containing missing values
-## (geom_point).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/NaturePlots-2.png" width="672" /></p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> df_analysis18, <span class="kw">aes</span>(HighArousalNegativeAffectMean, DayLevelNatureScaled, <span class="dt">colour =</span> Alone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> df_analysis18, <span class="kw">aes</span>(HighArousalNegativeAffectMean, DayLevelNatureScaled, <span class="dt">colour =</span> Alone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 52 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 52 rows containing missing values
-## (geom_point).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/NaturePlots-3.png" width="672" /></p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> df_analysis18, <span class="kw">aes</span>(HighArousalPositiveAffectMean, DayLevelNatureScaled, <span class="dt">colour =</span> Alone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> df_analysis18, <span class="kw">aes</span>(HighArousalPositiveAffectMean, DayLevelNatureScaled, <span class="dt">colour =</span> Alone, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>(<span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 40 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 40 rows containing missing values
-## (geom_point).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/NaturePlots-4.png" width="672" /></p>
 <p>And now for day-level intentionality.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" title="1"><span class="co">#Correlation of DayLevelIntentionality with Outcome (we only calculate these for alone anyway, so the above graphs would not make sense)</span></a>
-<a class="sourceLine" id="cb53-2" title="2"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;LowArousalNegativeAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, </a>
-<a class="sourceLine" id="cb53-3" title="3">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb53-4" title="4">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
-<a class="sourceLine" id="cb53-5" title="5">          <span class="dt">xlab =</span> <span class="st">&quot;LowArousalNegativeAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" title="1"><span class="co">#Correlation of DayLevelIntentionality with Outcome (we only calculate these for alone anyway, so the above graphs would not make sense)</span></a>
+<a class="sourceLine" id="cb43-2" title="2"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;LowArousalNegativeAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, </a>
+<a class="sourceLine" id="cb43-3" title="3">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb43-4" title="4">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
+<a class="sourceLine" id="cb43-5" title="5">          <span class="dt">xlab =</span> <span class="st">&quot;LowArousalNegativeAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 1281 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 1281 rows containing non-finite values
-## (stat_cor).</code></pre>
+<pre><code>## Warning: Removed 1281 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 1281 rows containing non-finite values (stat_cor).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/Intentionalityplots-1.png" width="672" /></p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;LowArousalPositiveAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, </a>
-<a class="sourceLine" id="cb57-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb57-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
-<a class="sourceLine" id="cb57-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;LowArousalPositiveAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;LowArousalPositiveAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, </a>
+<a class="sourceLine" id="cb47-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb47-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
+<a class="sourceLine" id="cb47-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;LowArousalPositiveAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 1265 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 1265 rows containing non-finite values
-## (stat_cor).</code></pre>
+<pre><code>## Warning: Removed 1265 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 1265 rows containing non-finite values (stat_cor).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/Intentionalityplots-2.png" width="672" /></p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;HighArousalNegativeAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, </a>
-<a class="sourceLine" id="cb61-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb61-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
-<a class="sourceLine" id="cb61-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;HighArousalNegativeAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;HighArousalNegativeAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, </a>
+<a class="sourceLine" id="cb51-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb51-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
+<a class="sourceLine" id="cb51-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;HighArousalNegativeAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 1280 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 1280 rows containing non-finite values
-## (stat_cor).</code></pre>
+<pre><code>## Warning: Removed 1280 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 1280 rows containing non-finite values (stat_cor).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/Intentionalityplots-3.png" width="672" /></p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;HighArousalPositiveAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, </a>
-<a class="sourceLine" id="cb65-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb65-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
-<a class="sourceLine" id="cb65-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;HighArousalPositiveAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;HighArousalPositiveAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, </a>
+<a class="sourceLine" id="cb55-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb55-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
+<a class="sourceLine" id="cb55-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;HighArousalPositiveAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelIntentionalitySolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 1270 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 1270 rows containing non-finite values
-## (stat_cor).</code></pre>
+<pre><code>## Warning: Removed 1270 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 1270 rows containing non-finite values (stat_cor).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/Intentionalityplots-4.png" width="672" /></p>
 <p>And for day-level structure.</p>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" title="1"><span class="co">#Correlation of DayLevelStructureSolitude with Outcome</span></a>
-<a class="sourceLine" id="cb69-2" title="2"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;LowArousalNegativeAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, </a>
-<a class="sourceLine" id="cb69-3" title="3">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb69-4" title="4">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
-<a class="sourceLine" id="cb69-5" title="5">          <span class="dt">xlab =</span> <span class="st">&quot;LowArousalNegativeAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" title="1"><span class="co">#Correlation of DayLevelStructureSolitude with Outcome</span></a>
+<a class="sourceLine" id="cb59-2" title="2"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;LowArousalNegativeAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, </a>
+<a class="sourceLine" id="cb59-3" title="3">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb59-4" title="4">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
+<a class="sourceLine" id="cb59-5" title="5">          <span class="dt">xlab =</span> <span class="st">&quot;LowArousalNegativeAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 1245 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 1245 rows containing non-finite values
-## (stat_cor).</code></pre>
+<pre><code>## Warning: Removed 1245 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 1245 rows containing non-finite values (stat_cor).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/DayStructurePlots-1.png" width="672" /></p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;LowArousalPositiveAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, </a>
-<a class="sourceLine" id="cb73-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb73-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
-<a class="sourceLine" id="cb73-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;LowArousalPositiveAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;LowArousalPositiveAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, </a>
+<a class="sourceLine" id="cb63-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb63-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
+<a class="sourceLine" id="cb63-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;LowArousalPositiveAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 1225 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 1225 rows containing non-finite values
-## (stat_cor).</code></pre>
+<pre><code>## Warning: Removed 1225 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 1225 rows containing non-finite values (stat_cor).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/DayStructurePlots-2.png" width="672" /></p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;HighArousalNegativeAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, </a>
-<a class="sourceLine" id="cb77-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb77-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
-<a class="sourceLine" id="cb77-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;HighArousalNegativeAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;HighArousalNegativeAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, </a>
+<a class="sourceLine" id="cb67-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb67-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
+<a class="sourceLine" id="cb67-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;HighArousalNegativeAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 1244 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 1244 rows containing non-finite values
-## (stat_cor).</code></pre>
+<pre><code>## Warning: Removed 1244 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 1244 rows containing non-finite values (stat_cor).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/DayStructurePlots-3.png" width="672" /></p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;HighArousalPositiveAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, </a>
-<a class="sourceLine" id="cb81-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb81-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
-<a class="sourceLine" id="cb81-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;HighArousalPositiveAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;HighArousalPositiveAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, </a>
+<a class="sourceLine" id="cb71-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb71-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
+<a class="sourceLine" id="cb71-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;HighArousalPositiveAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;DayLevelStructureSolitudeScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 1233 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 1233 rows containing non-finite values
-## (stat_cor).</code></pre>
+<pre><code>## Warning: Removed 1233 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 1233 rows containing non-finite values (stat_cor).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/DayStructurePlots-4.png" width="672" /></p>
 <p>And for individual-level structure.</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" title="1"><span class="co">#Correlation of IndividualLevelStructure</span></a>
-<a class="sourceLine" id="cb85-2" title="2"><span class="co">#Note: This has much more data than the two above, because there are not many alone periods.</span></a>
-<a class="sourceLine" id="cb85-3" title="3"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;LowArousalNegativeAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, </a>
-<a class="sourceLine" id="cb85-4" title="4">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb85-5" title="5">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
-<a class="sourceLine" id="cb85-6" title="6">          <span class="dt">xlab =</span> <span class="st">&quot;LowArousalNegativeAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" title="1"><span class="co">#Correlation of IndividualLevelStructure</span></a>
+<a class="sourceLine" id="cb75-2" title="2"><span class="co">#Note: This has much more data than the two above, because there are not many alone periods.</span></a>
+<a class="sourceLine" id="cb75-3" title="3"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;LowArousalNegativeAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, </a>
+<a class="sourceLine" id="cb75-4" title="4">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb75-5" title="5">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
+<a class="sourceLine" id="cb75-6" title="6">          <span class="dt">xlab =</span> <span class="st">&quot;LowArousalNegativeAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 52 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 52 rows containing non-finite values
-## (stat_cor).</code></pre>
+<pre><code>## Warning: Removed 52 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 52 rows containing non-finite values (stat_cor).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/IndividualStructurePlots-1.png" width="672" /></p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;LowArousalPositiveAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, </a>
-<a class="sourceLine" id="cb89-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb89-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
-<a class="sourceLine" id="cb89-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;LowArousalPositiveAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;LowArousalPositiveAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, </a>
+<a class="sourceLine" id="cb79-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb79-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
+<a class="sourceLine" id="cb79-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;LowArousalPositiveAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 25 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 25 rows containing non-finite values
-## (stat_cor).</code></pre>
+<pre><code>## Warning: Removed 25 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 25 rows containing non-finite values (stat_cor).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/IndividualStructurePlots-2.png" width="672" /></p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;HighArousalNegativeAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, </a>
-<a class="sourceLine" id="cb93-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb93-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
-<a class="sourceLine" id="cb93-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;HighArousalNegativeAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;HighArousalNegativeAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, </a>
+<a class="sourceLine" id="cb83-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb83-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
+<a class="sourceLine" id="cb83-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;HighArousalNegativeAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 52 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 52 rows containing non-finite values
-## (stat_cor).</code></pre>
+<pre><code>## Warning: Removed 52 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 52 rows containing non-finite values (stat_cor).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/IndividualStructurePlots-3.png" width="672" /></p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;HighArousalPositiveAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, </a>
-<a class="sourceLine" id="cb97-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb97-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
-<a class="sourceLine" id="cb97-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;HighArousalPositiveAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" title="1"><span class="kw">ggscatter</span>(df_analysis18, <span class="dt">x =</span> <span class="st">&quot;HighArousalPositiveAffectMean&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, </a>
+<a class="sourceLine" id="cb87-2" title="2">          <span class="dt">add =</span> <span class="st">&quot;reg.line&quot;</span>, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, </a>
+<a class="sourceLine" id="cb87-3" title="3">          <span class="dt">cor.coef =</span> <span class="ot">TRUE</span>, <span class="dt">cor.method =</span> <span class="st">&quot;pearson&quot;</span>,</a>
+<a class="sourceLine" id="cb87-4" title="4">          <span class="dt">xlab =</span> <span class="st">&quot;HighArousalPositiveAffectMean&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;StructureForSolitudeIndividualScaled&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<pre><code>## Warning: Removed 40 rows containing non-finite values
-## (stat_smooth).</code></pre>
-<pre><code>## Warning: Removed 40 rows containing non-finite values
-## (stat_cor).</code></pre>
+<pre><code>## Warning: Removed 40 rows containing non-finite values (stat_smooth).</code></pre>
+<pre><code>## Warning: Removed 40 rows containing non-finite values (stat_cor).</code></pre>
 <p><img src="Bookdown-Version_files/figure-html/IndividualStructurePlots-4.png" width="672" /></p>
 
 </div>

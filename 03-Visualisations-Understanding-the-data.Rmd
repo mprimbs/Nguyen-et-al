@@ -107,11 +107,11 @@ summary(df_analysis18$StructureForSolitudeIndividual)
 
 First, we begin to look at the data by looking at the densityplots for each dependent variable by level of ` Alone`.
 
-```{r Qplots}
-qplot (LowArousalNegativeAffectMean, data = df_analysis18, geom = "density", color = Alone, na.rm = TRUE)
-qplot (LowArousalPositiveAffectMean, data = df_analysis18, geom = "density", color = Alone, na.rm = TRUE)
-qplot (HighArousalNegativeAffectMean, data = df_analysis18, geom = "density", color = Alone, na.rm = TRUE)
-qplot (HighArousalPositiveAffectMean, data = df_analysis18, geom = "density", color = Alone, na.rm = TRUE)
+```{r Qplots, warning=FALSE}
+qplot (LowArousalNegativeAffectMean, data = df_analysis18, geom = "density", color = Alone)
+qplot (LowArousalPositiveAffectMean, data = df_analysis18, geom = "density", color = Alone)
+qplot (HighArousalNegativeAffectMean, data = df_analysis18, geom = "density", color = Alone)
+qplot (HighArousalPositiveAffectMean, data = df_analysis18, geom = "density", color = Alone)
 ```
 
 Next, we visualise some individual differences among our participants using xyplots.
@@ -129,10 +129,10 @@ Afterwards, we check the correlations of each dependent variable with the modera
 
 ```{r NaturePlots}
 #Correlation of Nature with Each Outcome Variable for each level of alone
-ggplot(data = df_analysis18, aes(LowArousalNegativeAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point() + geom_smooth(method = "lm")
-ggplot(data = df_analysis18, aes(LowArousalPositiveAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point() + geom_smooth(method = "lm")
-ggplot(data = df_analysis18, aes(HighArousalNegativeAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point() + geom_smooth(method = "lm")
-ggplot(data = df_analysis18, aes(HighArousalPositiveAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point() + geom_smooth(method = "lm")
+ggplot(data = df_analysis18, aes(LowArousalNegativeAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point(na.rm = TRUE) + geom_smooth(method = "lm", na.rm = TRUE)
+ggplot(data = df_analysis18, aes(LowArousalPositiveAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point(na.rm = TRUE) + geom_smooth(method = "lm", na.rm = TRUE)
+ggplot(data = df_analysis18, aes(HighArousalNegativeAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point(na.rm = TRUE) + geom_smooth(method = "lm", na.rm = TRUE)
+ggplot(data = df_analysis18, aes(HighArousalPositiveAffectMean, DayLevelNatureScaled, colour = Alone, na.rm = TRUE)) + geom_point(na.rm = TRUE) + geom_smooth(method = "lm", na.rm = TRUE)
 ```
 
 And now for day-level intentionality.
