@@ -274,26 +274,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="loading-packages" class="section level2">
 <h2><span class="header-section-number">2.1</span> Loading Packages</h2>
 <p>We begin by loading all R packages we used. The <code>pacman</code> package allows us to install and load all R packages used in the present project. Please note, that this will install the most current version of each package on your PC (only if you don´t have a package installed yet). The <code>renv::restore</code> function restores the packages in the version we used. For that, you need to place the <code>renv.lock</code>file in the same folder as the rest of the project.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;pacman&quot;</span>)) <span class="kw">install.packages</span>(<span class="st">&quot;pacman&quot;</span>)</a>
-<a class="sourceLine" id="cb1-2" title="2">pacman<span class="op">::</span><span class="kw">p_load</span>(tidyverse, here, plyr, tidyr, dplyr, car, lme4, lattice, parallel, ggplot2, ggpubr, predictmeans, rmarkdown, tinytex, renv)</a>
-<a class="sourceLine" id="cb1-3" title="3"></a>
-<a class="sourceLine" id="cb1-4" title="4">renv<span class="op">::</span><span class="kw">restore</span>()</a></code></pre></div>
-<pre><code>## The following package(s) are missing their DESCRIPTION files:
-## 
-##  file1aa44f6fac [C:/Users/maxim/OneDrive/Documents/R/win-library/4.0/file1aa44f6fac]
-## 
-## These may be left over from a prior, failed installation attempt.
-## Consider removing or re-installing these packages.
-## 
-## * The library is already synchronized with the lockfile.</code></pre>
-<p>Next, we want to set some general options.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">options</span>(<span class="dt">scipen =</span> <span class="dv">999</span>)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(<span class="st">&quot;pacman&quot;</span>)) <span class="kw">install.packages</span>(<span class="st">&quot;pacman&quot;</span>)</a></code></pre></div>
+<pre><code>## Loading required package: pacman</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">pacman<span class="op">::</span><span class="kw">p_load</span>(tidyverse, here, plyr, tidyr, dplyr, car, lme4, lattice, parallel, ggplot2, ggpubr, predictmeans, rmarkdown, tinytex, renv)</a>
 <a class="sourceLine" id="cb3-2" title="2"></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co">#create cluster for mixed models. Assumes that you have more than 1 core.</span></a>
-<a class="sourceLine" id="cb3-4" title="4">n_cores &lt;-<span class="st"> </span><span class="kw">detectCores</span>()</a>
-<a class="sourceLine" id="cb3-5" title="5">MyCluster &lt;-<span class="st"> </span><span class="kw">makeCluster</span>(<span class="kw">rep</span>(<span class="st">&quot;localhost&quot;</span>, n_cores <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb3-6" title="6"></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="kw">options</span>(<span class="dt">contrasts =</span> <span class="kw">c</span>(<span class="st">&quot;contr.sum&quot;</span>, <span class="st">&quot;contr.poly&quot;</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb3-3" title="3">renv<span class="op">::</span><span class="kw">restore</span>()</a></code></pre></div>
+<pre><code>## * The library is already synchronized with the lockfile.</code></pre>
+<p>Next, we want to set some general options.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">options</span>(<span class="dt">scipen =</span> <span class="dv">999</span>)</a>
+<a class="sourceLine" id="cb5-2" title="2"></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co">#create cluster for mixed models. Assumes that you have more than 1 core.</span></a>
+<a class="sourceLine" id="cb5-4" title="4">n_cores &lt;-<span class="st"> </span><span class="kw">detectCores</span>()</a>
+<a class="sourceLine" id="cb5-5" title="5">MyCluster &lt;-<span class="st"> </span><span class="kw">makeCluster</span>(<span class="kw">rep</span>(<span class="st">&quot;localhost&quot;</span>, n_cores <span class="op">-</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="kw">options</span>(<span class="dt">contrasts =</span> <span class="kw">c</span>(<span class="st">&quot;contr.sum&quot;</span>, <span class="st">&quot;contr.poly&quot;</span>))</a></code></pre></div>
 </div>
 <div id="loading-data" class="section level2">
 <h2><span class="header-section-number">2.2</span> Loading Data</h2>
@@ -301,10 +295,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <ul>
 <li><code>AnonymousDataframe.csv</code> is the anonymised version of the experience sampling data. Moreover, it contains the total number of surveys each participant completed and the person-level structure for solitude measurement assessed in the initial questionnaires.</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;AnonymousDataframe.csv&quot;</span>))</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="co">#If there are empty cells, we code them as NA</span></a>
-<a class="sourceLine" id="cb4-3" title="3">df[df<span class="op">==</span><span class="st">&quot;&quot;</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb4-4" title="4">df[df<span class="op">==</span><span class="st">&quot; &quot;</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;AnonymousDataframe.csv&quot;</span>))</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="co">#If there are empty cells, we code them as NA</span></a>
+<a class="sourceLine" id="cb6-3" title="3">df[df<span class="op">==</span><span class="st">&quot;&quot;</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb6-4" title="4">df[df<span class="op">==</span><span class="st">&quot; &quot;</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a></code></pre></div>
 
 </div>
 </div>
