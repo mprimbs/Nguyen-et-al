@@ -166,11 +166,13 @@ We also need to prepare our remaining variables. The first variable we need to c
 ```{r Alone, echo=TRUE}
 #From the pre-registration:
 
-#Alone should be coded as 1 if Question 3 is Yes and Question 4 is no or Question 3 is No And Question 4 is No. Hence, Question 3 does not matter.
+#if question 3 = 2 -> code 1.
+#if q3 = 1 and q4 = 1 -> code 1, else code 0
 df <- df %>%
-  mutate(Alone = ifelse(Question.4 == 1, 1, 0))
+ mutate(Alone = ifelse(Question.3 == 1 & Question.4 == 1 | Question.3 == 2, 1, 0))
 df$Alone <- as.factor(as.character(df$Alone))
 ```
+
 
 Afterwards, we will calculate the day-level moderators. For that, we first need to create a variable that demarks the day. Moreover, because there are multiple observations per day for each subject, we need to create a combined `SubjDay` variable (following <https://psyarxiv.com/xf2pw/>).
 

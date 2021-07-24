@@ -66,12 +66,7 @@ Hypothesis 1a is also confirmed for the 40% sensitivity analyses.
 ### Hypothesis 1b
 
 ```{r 401b, echo = TRUE}
-lme14RQ1c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis14) # -> Singular Fit
-#1) change to bobyqa
-lme14RQ1c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) # -> Singular Fit
-#2) Turn of gradient and hessian
-lme14RQ1c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) # -> convergences
-
+lme14RQ1c <- lme4::lmer(HighArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis14) 
 
 #get first summary
 summary(lme14RQ1c)
@@ -97,7 +92,7 @@ car::qqPlot(resid(lme14RQ1c, scaled = TRUE))
 
 #Normal enough, but the qqplot shows a lot of outliers in the tails, which is quite problematic
 
-RQ1c_p <- afex::mixed (HighArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), data = df_analysis14, type = 3, method = "KR", test_intercept = TRUE, cl = MyCluster)
+RQ1c_p <- afex::mixed (HighArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis14, type = 3, method = "KR", test_intercept = TRUE, cl = MyCluster)
 #effect of alone not significant
 #Hypothesis 1b not confirmed
 RQ1c_p
@@ -108,12 +103,7 @@ Hypothesis 1b is not confirmed.
 ### Hypothesis 1c
 
 ```{r 401c, echo = TRUE}
-lme14RQ1b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis14) # -> Singular Fit
-#1) Change to bobyqa
-lme14RQ1b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) #-> Singular Fit
-
-#2) Turn of gradient and hessian
-lme14RQ1b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> No Singular Fit warning
+lme14RQ1b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis14) 
 
 #get first summary
 summary(lme14RQ1b)
@@ -141,7 +131,7 @@ car::qqPlot(resid(lme14RQ1b, scaled = TRUE))
 
 
 #Calculate p-values
-RQ1b_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), data = df_analysis14, type = 3, method = "KR", test_intercept = TRUE, cl = MyCluster)
+RQ1b_p <- afex::mixed(LowArousalPositiveAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis14, type = 3, method = "KR", test_intercept = TRUE, cl = MyCluster)
 #Effect of Alone is significant
 RQ1b_p
 #get means
@@ -191,12 +181,11 @@ car::qqPlot(resid(lme14RQ1, scaled = TRUE))
 
 RQ1_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone + (1 + Alone | Participant.ID) + (1 | SubjDay), data = df_analysis14, type = 3, method = "KR", test_intercept = TRUE, cl = MyCluster)
 RQ1_p
-#The effect of Alone is not significant. 
-#Hypothesis 1D is not supported.
+
 
 ```
 
-Hypothesis 1D is not supported.
+Hypothesis 1D is  supported.
 
 ### Correction for Multiple Testing
 
@@ -211,7 +200,7 @@ df_analysis14RQ1_pvalues$adjusted <- p.adjust(df_analysis14RQ1_pvalues$V2, metho
 df_analysis14RQ1_pvalues$adjusted
 ```
 
-Only Hypothesis 1a is confirmed after correction for multiple testing. The effect observed at 1C disappears.
+Hypotheses 1a and 1Dconfirmed after correction for multiple testing. The effect in the opposite observed at 1C also remains.
 
 ## Research Question 2
 
@@ -305,10 +294,7 @@ lme14RQ2b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelNatureScale
 
 lme14RQ2b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) #does not convergence
 
-lme14RQ2b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges and produces negative eigenvalues in the calculation of p-values. 
-
-lme14RQ2b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone + DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
-
+lme14RQ2b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges 
 
 #get first summary
 summary(lme14RQ2b)
@@ -333,7 +319,7 @@ densityplot(resid(lme14RQ2b, scaled = TRUE))
 car::qqPlot(resid(lme14RQ2b, scaled = TRUE))
 
 #Normal enough, but the qqplot shows quite some outliers in the tails
-RQ2b_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone + DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), data = df_analysis14, type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+RQ2b_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone*DayLevelNatureScaled + (1 + Alone*DayLevelNatureScaled | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
 RQ2b_p
 #2Ac amd 2Ba not supported
 ```
@@ -388,12 +374,7 @@ Hypothesis 2Ad and hypothesis 2Bb are not supported.
 
 ```{r 403Aa, echo = TRUE}
 
-lme14RQ3d <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14) #warning
-
-lme14RQ3d <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa"), data = df_analysis14) #warning
-
-lme14RQ3d <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), data = df_analysis14) #converges
-
+lme14RQ3d <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14) 
 
 #get first summary
 summary(lme14RQ3d)
@@ -417,7 +398,7 @@ densityplot(resid(lme14RQ3d, scaled = TRUE))
 car::qqPlot(resid(lme14RQ3d, scaled = TRUE))
 
 #qqplot shows quite some outliers in the tails
-RQ3d_p <- afex::mixed (HighArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE))
+RQ3d_p <- afex::mixed (HighArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
 RQ3d_p
 #3Aa not supported. 3Bc/d: No interaction
 ```
@@ -475,10 +456,7 @@ lme14RQ3b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelIntentional
 
 lme14RQ3b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) #does not convergence
 
-lme14RQ3b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges, but produces negative eigenvalue in p-value calculation
-
-lme14RQ3b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone+DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) # -> converges
-
+lme14RQ3b <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) 
 
 
 #get first summary
@@ -504,7 +482,7 @@ densityplot(resid(lme14RQ3b, scaled = TRUE))
 car::qqPlot(resid(lme14RQ3b, scaled = TRUE))
 
 #qqplot shows some outliers in the tails
-RQ3b_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone+DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+RQ3b_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
 #3Ac and 3Ba not supported
 RQ3b_p
 
@@ -516,12 +494,7 @@ Hypotheses 3Ac and 3Ba are not supported.
 
 ```{r 403Ad, echo = TRUE}
 
-lme14RQ3 <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14) #-> does not convergence
-
-lme14RQ3 <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) #does not convergence
-
-lme14RQ3 <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges 
-
+lme14RQ3 <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14) 
 
 #get first summary
 summary(lme14RQ3)
@@ -546,13 +519,29 @@ car::qqPlot(resid(lme14RQ3, scaled = TRUE))
 
 #qqplot shows quite some outliers in the tails
 
-RQ3_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+RQ3_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone*DayLevelIntentionalitySolitudeScaled + (1 + Alone*DayLevelIntentionalitySolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
 RQ3_p
 #3Ad and 3Bb not supported
 
 ```
 
-Hypotheses 3Ad and 3Bb are not supported.
+Hypotheses 3Ad is supported and Hypothesis 3Bb is not supported.
+
+### Correction for Multiple Testing
+
+Next we check whether these effects also hold after correction for multiple testing.
+
+```{r 40mt3, echo = TRUE}
+df_analysis14RQ3_pvalues <- as.data.frame(rbind(RQ3_p$anova_table$`Pr(>F)`[3], RQ3b_p$anova_table$`Pr(>F)`[3], RQ3c_p$anova_table$`Pr(>F)`[3], RQ3d_p$anova_table$`Pr(>F)`[3]))
+
+df_analysis14RQ3_pvalues$adjusted <- p.adjust(df_analysis14RQ3_pvalues$V1, method = "holm")
+#1A is also confirmed after correction, whereas the effect in the opposite direction at 1C disappears.
+
+df_analysis14RQ3_pvalues$adjusted
+```
+
+After correction for multiple testing, all p-values disappear.
+
 
 ## Research Question 4
 
@@ -561,11 +550,7 @@ Hypotheses 3Ad and 3Bb are not supported.
 ```{r 404Aday, echo = TRUE}
 lme14RQ4d.day <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14) #-> does not convergence
 
-lme14RQ4d.day <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) #does not convergence
-
-lme14RQ4d.day <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
-
-
+lme14RQ4d.day <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa"))
 
 #get first summary
 summary(lme14RQ4d.day)
@@ -590,7 +575,7 @@ densityplot(resid(lme14RQ4d.day, scaled = TRUE))
 car::qqPlot(resid(lme14RQ4d.day, scaled = TRUE))
 
 #qqplot shows quite some outliers in the tails
-RQ4d.day_p <- afex::mixed (HighArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+RQ4d.day_p <- afex::mixed (HighArousalPositiveAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa"), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
 RQ4d.day_p 
 #Hypothesis 4Aa and 4Ba day not supported
 ```
@@ -684,12 +669,7 @@ Hypothesis 4Ac day is not supported. However, as expected, there is no interacti
 
 ```{r 404Adday, echo = TRUE}
 
-lme14RQ4.day <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14) #-> does not convergence
-
-lme14RQ4.day <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) #does not convergence
-
-lme14RQ4.day <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
-
+lme14RQ4.day <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14) 
 
 #get first summary
 summary(lme14RQ4.day)
@@ -714,7 +694,7 @@ densityplot(resid(lme14RQ4.day, scaled = TRUE))
 car::qqPlot(resid(lme14RQ4.day, scaled = TRUE))
 
 #qqplot shows quite some outliers in the tails
-RQ4.day_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+RQ4.day_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone*DayLevelStructureSolitudeScaled + (1 + Alone*DayLevelStructureSolitudeScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
 #Hypothesis 4Ad day not supported, 4Bc/d: No Interaction
 RQ4.day_p 
 ```
@@ -728,9 +708,7 @@ lme14RQ4d.individual <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*Structu
 
 lme14RQ4d.individual <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) #-> does not convergence
 
-lme14RQ4d.individual <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges, but negative eigenvalue
-
-lme14RQ4d.individual <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  || Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE))
+lme14RQ4d.individual <- lme4::lmer(HighArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE))
 
 #get first summary
 summary(lme14RQ4d.individual)
@@ -755,12 +733,18 @@ car::qqPlot(resid(lme14RQ4d.individual, scaled = TRUE))
 
 #qqplot shows outliers in the tails
 
-RQ4d.individual_p <- afex::mixed (HighArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  || Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster, expand_re = TRUE)
+#RQ4d.individual_p <- afex::mixed (HighArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+
+#Fehler in h(simpleError(msg, call)) : Fehler bei der Auswertung des Argumentes 'x' bei der Methodenauswahl für Funktion 'forceSymmetric': Lapackroutine dgesv: System ist genau singulär: U[12,12] = 0
+
+RQ4d.individual_p <- afex::mixed (HighArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "S",  cl = MyCluster)
+
+
 RQ4d.individual_p
 #Hypothesis 4Aa and 4Ba not suported
 ```
 
-Hypotheses 4Aa and 4Ba person-level are not supported.
+Hypotheses 4Aa is not supported. 4Ba person-level is supported pending correction for multiple testing.
 
 ### Hypotheses 4Ab and 4Bb Person-Level
 
@@ -814,10 +798,7 @@ lme14RQ4b.individual <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*Structur
 
 lme14RQ4b.individual <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) #-> does not convergence
 
-lme14RQ4b.individual <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges, but negative eigenvalue
-
-lme14RQ4b.individual <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  || Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE))
-
+lme14RQ4b.individual <- lme4::lmer(LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
 
 #get first summary
 summary(lme14RQ4b.individual)
@@ -841,15 +822,14 @@ densityplot(resid(lme14RQ4b.individual, scaled = TRUE))
 car::qqPlot(resid(lme14RQ4b.individual, scaled = TRUE))
 
 #qqplot shows quite some outliers in the tails
-#RQ4b.individual_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
-#Fehler bei der Auswertung des Argumentes 'x' bei der Methodenauswahl für Funktion 'forceSymmetric': System ist für den Rechner singulär: reziproke Konditionszahl = 5.36477e-36
+RQ4b.individual_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
 
-RQ4b.individual_p <- afex::mixed (LowArousalPositiveAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  || Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "S",  cl = MyCluster, expand_re = TRUE)
+
 #Hypothesis 4Ac individual not supported, 4Bc/d: No Interaction
 RQ4b.individual_p 
 ```
 
-Hypothesis 4Ac person-level is not supported. However, there is a significant interaction (contrary to expectations 4Bc).
+Hypothesis 4Ac person-level is not supported. Moreover, as expected, there is no significant interaction.
 
 ### Hypotheses 4Ad and 4Bd Person-Level
 
@@ -860,9 +840,7 @@ lme14RQ4.individual <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*Structure
 
 lme14RQ4.individual <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) #-> does not convergence
 
-lme14RQ4.individual <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges, but shows eigenvalue issues
-
-lme14RQ4.individual <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone+StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE))
+lme14RQ4.individual <- lme4::lmer(LowArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE)) #-> converges
 
 #get first summary
 summary(lme14RQ4.individual)
@@ -887,20 +865,276 @@ densityplot(resid(lme14RQ4.individual, scaled = TRUE))
 car::qqPlot(resid(lme14RQ4.individual, scaled = TRUE))
 
 #qqplot shows quite some outliers in the tails
-RQ4.individual_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone+StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
-#Hypothesis 4Ad individual not supported, 4Bc/d: No Interaction
+#RQ4.individual_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+
+#Fehler in h(simpleError(msg, call)) : Fehler bei der Auswertung des Argumentes 'x' bei der Methodenauswahl für Funktion 'forceSymmetric': System ist für den Rechner singulär: reziproke Konditionszahl = 3.86022e-33
+
+RQ4.individual_p <- afex::mixed (LowArousalNegativeAffectMean ~ Alone*StructureForSolitudeIndividualScaled + (1 + Alone*StructureForSolitudeIndividualScaled  | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE), type = 3, method = "S",  cl = MyCluster)
 RQ4.individual_p 
 ```
 
 Hypothesis 4Ad person-level is not supported. However, as expected, there was no interaction (4Ad).
 
+### Correction for multiple testing
 
-### Correction for Multiple Testing
-```{r 4ApersonMT, echo = TRUE}
-df_analysis14RQ4_person_pvalues <- as.data.frame(rbind(RQ4.individual_p$anova_table$`Pr(>F)`[4], RQ4b.individual_p$anova_table$`Pr(>F)`[3], RQ4c.individual_p$anova_table$`Pr(>F)`[3], RQ4d.individual_p$anova_table$`Pr(>F)`[4]))
+
+```{r mt40%, echo = TRUE}
+df_analysis14RQ4_person_pvalues <- as.data.frame(rbind(RQ4.individual_p$anova_table$`Pr(>F)`[3], RQ4b.individual_p$anova_table$`Pr(>F)`[4], RQ4c.individual_p$anova_table$`Pr(>F)`[3], RQ4d.individual_p$anova_table$`Pr(>F)`[3]))
 
 df_analysis14RQ4_person_pvalues$adjusted <- p.adjust(df_analysis14RQ4_person_pvalues$V1, method = "holm")
-df_analysis14RQ4_person_pvalues$adjusted
+
+df_analysis14RQ4_person_pvalues$adjusted 
 ```
 
-After correction, no significant p-values remain.
+
+After correction for multiple testing there are no significant p-values remaining.
+
+## Exploratory Research Questions
+
+### Preparation
+
+Here we prepare the 40% sensitivity analysis of the exploratory research question
+
+```{r RQ540prep, echo = TRUE}
+
+#create lagged alone variable as preparation for creating the epoch variable
+df_analysis14 <- 
+  df_analysis14 %>%
+  group_by(Participant.ID) %>%
+  mutate(AloneLagged = dplyr::lag(Alone, n = 1, default = NA))
+
+#create epoch. epoch = 1 if alone & alone lagged are not equal and not NA.
+df_analysis14 <- 
+  df_analysis14 %>%
+  mutate(epoch = ifelse(Alone == 1 & AloneLagged == 0 | Alone == 0 & AloneLagged == 1, 1, 0)) 
+
+df_analysis14$epoch <- as.factor(as.character(df_analysis14$epoch))
+
+#create affect.0 variables, which are the lagged versions of the affect variables.
+df_analysis14 <- 
+  df_analysis14 %>%
+  group_by(Participant.ID) %>%
+  mutate(LowArousalNegativeAffectMeanLagged = dplyr::lag(LowArousalNegativeAffectMean, n = 1, default = NA))
+
+df_analysis14 <- 
+  df_analysis14 %>%
+  group_by(Participant.ID) %>%
+  mutate(LowArousalPositiveAffectMeanLagged = dplyr::lag(LowArousalPositiveAffectMean, n = 1, default = NA))
+
+df_analysis14 <- 
+  df_analysis14 %>%
+  group_by(Participant.ID) %>%
+  mutate(HighArousalNegativeAffectMeanLagged = dplyr::lag(HighArousalNegativeAffectMean, n = 1, default = NA))
+
+df_analysis14 <- 
+  df_analysis14 %>%
+  group_by(Participant.ID) %>%
+  mutate(HighArousalPositiveAffectMeanLagged = dplyr::lag(HighArousalPositiveAffectMean, n = 1, default = NA))
+
+#scale the lagged variable as predictor
+
+df_analysis14$LowArousalNegativeAffectMeanLaggedScaled <- scale(df_analysis14$LowArousalNegativeAffectMeanLagged)
+
+df_analysis14$LowArousalPositiveAffectMeanLaggedScaled <- scale(df_analysis14$LowArousalPositiveAffectMeanLagged)
+
+df_analysis14$HighArousalNegativeAffectMeanLaggedScaled <- scale(df_analysis14$HighArousalNegativeAffectMeanLagged)
+
+df_analysis14$HighArousalPositiveAffectMeanLaggedScaled <- scale(df_analysis14$HighArousalPositiveAffectMeanLagged)
+```
+
+
+### Analyses
+
+Next, we perform all four analysis and perform a correction for multiple testing where necessary.
+
+```{r RQ540analysis, echo = TRUE}
+
+#####fit mixed model#####
+##LowArousalNegative Affect##
+lme14RQ5 <- lme4::lmer(LowArousalNegativeAffectMean ~ LowArousalNegativeAffectMeanLaggedScaled*Alone*epoch + (1 +LowArousalNegativeAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14) #-> does not convergence
+
+
+lme14RQ5 <- lme4::lmer(LowArousalNegativeAffectMean ~ LowArousalNegativeAffectMeanLaggedScaled*Alone*epoch + (1 +LowArousalNegativeAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) # does not converge
+
+lme14RQ5 <- lme4::lmer(LowArousalNegativeAffectMean ~ LowArousalNegativeAffectMeanLaggedScaled*Alone*epoch + (1 +LowArousalNegativeAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE, optCtrl=list(maxfun=1e5))) #converges, but eigenvalue issues
+
+lme14RQ5 <- lme4::lmer(LowArousalNegativeAffectMean ~ LowArousalNegativeAffectMeanLaggedScaled*Alone*epoch + (1 +LowArousalNegativeAffectMeanLaggedScaled*Alone*epoch || Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE, optCtrl=list(maxfun=1e5)))
+
+#get first summary
+summary(lme14RQ5)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme14RQ5 , scaled = TRUE)) > 2) / length(resid(lme14RQ5 ))
+sum(abs(resid(lme14RQ5 , scaled = TRUE)) > 2.5) / length(resid(lme14RQ5 )) 
+sum(abs(resid(lme14RQ5 , scaled = TRUE)) > 3) / length(resid(lme14RQ5 )) 
+
+#2) Homoscedasticity
+plot(lme14RQ5, type = c('p', 'smooth'))
+#looks good
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme14RQ5, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme14RQ5, scaled = TRUE))
+
+#qqplot shows outliers in the tails
+
+
+#Conclusion: There are some issues with the assumptions here. Proceed with caution.
+
+#Calculate p-values
+#says the predictor is not centered on zero
+RQ5_p <- afex::mixed (LowArousalNegativeAffectMean ~ LowArousalNegativeAffectMeanLaggedScaled*Alone*epoch + (1 +LowArousalNegativeAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE, optCtrl=list(maxfun=1e5)), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster) #failed to converge with negative eigenvalue
+
+RQ5_p <- afex::mixed (LowArousalNegativeAffectMean ~ LowArousalNegativeAffectMeanLaggedScaled*Alone*epoch + (1 +LowArousalNegativeAffectMeanLaggedScaled*Alone*epoch || Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE, optCtrl=list(maxfun=1e5)), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster, expand_re = TRUE)
+
+RQ5_p
+
+
+##low arousal positive affect##
+#####fit mixed model#####
+lme14RQ5b <- lme4::lmer(LowArousalPositiveAffectMean ~ LowArousalPositiveAffectMeanLaggedScaled*Alone*epoch + (1 +LowArousalPositiveAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14) #-> does not convergence
+
+lme14RQ5b <- lme4::lmer(LowArousalPositiveAffectMean ~ LowArousalPositiveAffectMeanLaggedScaled*Alone*epoch + (1 +LowArousalPositiveAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) #-> does not convergence
+
+lme14RQ5b <- lme4::lmer(LowArousalPositiveAffectMean ~ LowArousalPositiveAffectMeanLaggedScaled*Alone*epoch + (1 +LowArousalPositiveAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE, optCtrl=list(maxfun=1e5))) 
+
+#get first summary
+summary(lme14RQ5b)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme14RQ5b , scaled = TRUE)) > 2) / length(resid(lme14RQ5b ))
+sum(abs(resid(lme14RQ5b , scaled = TRUE)) > 2.5) / length(resid(lme14RQ5b )) 
+sum(abs(resid(lme14RQ5b , scaled = TRUE)) > 3) / length(resid(lme14RQ5b )) 
+
+#2) Homoscedasticity
+plot(lme14RQ5b, type = c('p', 'smooth'))
+#looks good
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme14RQ5b, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme14RQ5b, scaled = TRUE))
+
+#qqplot shows outliers in the tails
+
+
+#Conclusion: There are some issues with the assumptions here. Proceed with caution.
+
+#Calculate p-values
+
+RQ5b_p <- afex::mixed (LowArousalPositiveAffectMean ~ LowArousalPositiveAffectMeanLaggedScaled*Alone*epoch + (1 +LowArousalPositiveAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE, optCtrl=list(maxfun=1e5)), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+RQ5b_p
+
+
+##high arousal negative affect##
+#####fit mixed model#####
+lme14RQ5c <- lme4::lmer(HighArousalNegativeAffectMean ~ HighArousalNegativeAffectMeanLaggedScaled*Alone*epoch + (1 +HighArousalNegativeAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14) #-> does not convergence
+
+lme14RQ5c <- lme4::lmer(HighArousalNegativeAffectMean ~ HighArousalNegativeAffectMeanLaggedScaled*Alone*epoch + (1 +HighArousalNegativeAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) #-> does not convergence
+
+lme14RQ5c <- lme4::lmer(LowArousalPositiveAffectMean ~ LowArousalPositiveAffectMeanLaggedScaled*Alone*epoch + (1 +LowArousalPositiveAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE, optCtrl=list(maxfun=1e5))) 
+
+#get first summary
+summary(lme14RQ5c)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme14RQ5c , scaled = TRUE)) > 2) / length(resid(lme14RQ5c ))
+sum(abs(resid(lme14RQ5c , scaled = TRUE)) > 2.5) / length(resid(lme14RQ5c )) 
+sum(abs(resid(lme14RQ5c , scaled = TRUE)) > 3) / length(resid(lme14RQ5c )) 
+
+#2) Homoscedasticity
+plot(lme14RQ5c, type = c('p', 'smooth'))
+#looks good
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme14RQ5c, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme14RQ5c, scaled = TRUE))
+
+#qqplot shows outliers in the tails
+
+
+#Conclusion: There are some issues with the assumptions here. Proceed with caution.
+
+#Calculate p-values
+
+RQ5c_p <- afex::mixed(LowArousalPositiveAffectMean ~ LowArousalPositiveAffectMeanLaggedScaled*Alone*epoch + (1 +LowArousalPositiveAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE, optCtrl=list(maxfun=1e5)), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+RQ5c_p
+
+
+##high arousal positive affect##
+
+#####fit mixed model#####
+lme14RQ5d <- lme4::lmer(HighArousalPositiveAffectMean ~ HighArousalPositiveAffectMeanLaggedScaled*Alone*epoch + (1 +HighArousalPositiveAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14) #-> does not convergence
+
+lme14RQ5d <- lme4::lmer(HighArousalPositiveAffectMean ~ HighArousalPositiveAffectMeanLaggedScaled*Alone*epoch + (1 +HighArousalPositiveAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa")) #-> does not convergence
+
+lme14RQ5d <- lme4::lmer(HighArousalPositiveAffectMean ~ HighArousalPositiveAffectMeanLaggedScaled*Alone*epoch + (1 +HighArousalPositiveAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE, optCtrl=list(maxfun=1e5))) 
+
+#get first summary
+summary(lme14RQ5d)
+
+
+
+#check assumptions
+#1) Outliers
+#proportion of residuals larger than +/- 2, 2.5, 3.
+sum(abs(resid(lme14RQ5d , scaled = TRUE)) > 2) / length(resid(lme14RQ5d ))
+sum(abs(resid(lme14RQ5d , scaled = TRUE)) > 2.5) / length(resid(lme14RQ5d )) 
+sum(abs(resid(lme14RQ5d , scaled = TRUE)) > 3) / length(resid(lme14RQ5d )) 
+
+#2) Homoscedasticity
+plot(lme14RQ5d, type = c('p', 'smooth'))
+#looks good
+#3) Normality
+#densityplot of the scaled residuals
+densityplot(resid(lme14RQ5d, scaled = TRUE))
+#qqplot of the scaled residuals
+car::qqPlot(resid(lme14RQ5d, scaled = TRUE))
+
+#qqplot shows outliers in the tails
+
+
+#Conclusion: There are some issues with the assumptions here. Proceed with caution.
+
+#Calculate p-values
+
+RQ5d_p <- afex::mixed(HighArousalPositiveAffectMean ~ HighArousalPositiveAffectMeanLaggedScaled*Alone*epoch + (1 +HighArousalPositiveAffectMeanLaggedScaled*Alone*epoch | Participant.ID) + (1 | SubjDay), data = df_analysis14, control = lmerControl(optimizer = "bobyqa", calc.derivs = FALSE, optCtrl=list(maxfun=1e5)), type = 3, method = "KR",test_intercept = TRUE,  cl = MyCluster)
+RQ5d_p
+
+```
+
+For all four analysis, Alone and the lagged affect variable emerge as significant predictors. Here, we are mainly interested in the effect of the lagged affect variables. Therefore, we correct for multiple testing for the effect of the lagged affect variables
+
+### Correction for Multiple Testing
+
+```{r RQ540mt, echo = TRUE}
+
+#Adjust effect of affect.0 variables
+df_analysis14RQ5.2_pvalues <- as.data.frame(rbind(RQ5_p$anova_table$`Pr(>F)`[2], RQ5b_p$anova_table$`Pr(>F)`[2], RQ5c_p$anova_table$`Pr(>F)`[2], RQ5d_p$anova_table$`Pr(>F)`[2]))
+
+df_analysis14RQ5.2_pvalues$adjusted <- p.adjust(df_analysis14RQ5.2_pvalues$V1, method = "holm")
+df_analysis14RQ5.2_pvalues$adjusted #all remain significant
+
+#adjust for alone : epoch interaction
+df_analysis14RQ5.7_pvalues <- as.data.frame(rbind(RQ5_p$anova_table$`Pr(>F)`[7], RQ5b_p$anova_table$`Pr(>F)`[7], RQ5c_p$anova_table$`Pr(>F)`[7], RQ5d_p$anova_table$`Pr(>F)`[7]))
+
+df_analysis14RQ5.7_pvalues$adjusted <- p.adjust(df_analysis14RQ5.7_pvalues$V1, method = "holm")
+df_analysis14RQ5.7_pvalues$adjusted #one remains significant.
+
+```
+
+All four p-values for the effect of the affect.0 variables remain significant even after correction for multiple testing. The epoch:alone interaction observed for high arousal positive affect remains significant.

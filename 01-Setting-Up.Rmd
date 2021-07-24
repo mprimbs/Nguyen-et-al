@@ -1,7 +1,7 @@
 # Setting Up
 
 ## Loading Packages
-We begin by loading all R packages we used. The `pacman` package allows us to install and load all R packages used in the present project. Please note, that this will install the most current version of each package on your PC (only if you don´t have a package installed yet). The `renv::restore` function restores the packages in the version we used. For that, you need to place the `renv.lock`file in the same folder as the rest of the project.
+We begin by loading all R packages we used. The `pacman` package allows us to install and load all R packages used in the present project. Please note, that this will install the most current version of each package on your PC (only if you don´t have a package installed yet). The `renv::restore` function restores the packages in the version we used. For that, you the `renv.lock`file needs to be in the in the same folder as the rest of the project.
 
 
 ```{r Packages, echo=TRUE}
